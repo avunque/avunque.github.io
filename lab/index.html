@@ -117,14 +117,14 @@
     </div>
     <div class="col-md-4" id="pinboard">
     <div class="underline">
-      <h4>Bookmarks</h4> <div class="byline">by <a href="https://pinboard.in/u:twwoodward">twwoodward</a></div>
+      <h4>Bookmarks</h4> <div class="byline">by <a href="http://del.icio.us/avunque">avunque</a></div>
     </div>
     <script type="text/javascript">                
         $(document).ready(function(){ 
           console.log("ready"); //just to check in the firebug console.
           
         $.ajax({
-          url:'https://feeds.pinboard.in/json/u:twwoodward/',
+          url:'http://feeds.del.icio.us/v2/json/avunque',
           jsonp:"cb",
           dataType:'jsonp',
           success: function(data) {
