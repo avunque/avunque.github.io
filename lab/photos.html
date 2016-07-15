@@ -13,7 +13,7 @@
 	</head>
    <body>
    <nav class="navbar navbar-default navbar-fixed-top"">
-        <h2 id="title-header"><a href="./">Tom Woodward</a></h2>
+        <h2 id="title-header"><a href="./">Antonio Vantaggiato</a></h2>
   <div class="container">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
@@ -118,7 +118,7 @@
 			var app = angular.module('myApp', ['ngSanitize']);
 			//
 			app.controller('SuperCtrl', function($scope, $http) {
-			    $http.get("./json/weeklyPhotos.json")
+			    $http.get("https://api.flickr.com/services/rest/?method=flickr.people.getPublicPhotos&api_key=f978c7d0ab4e8c5c8093126196337f1f&user_id=90625980@N00&format=json&nojsoncallback=?")
 			    .success(function(response) {$scope.entries = response;});
 			});
 			
