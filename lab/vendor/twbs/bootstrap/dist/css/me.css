@@ -1,0 +1,404 @@
+body {
+  padding-top: 50px;
+}
+
+.navbar {
+	margin-bottom: 0px;
+}
+
+.container {
+	padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.main-content {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.navbar-default {
+	background-color: #fff;
+	border-radius: 0px;
+}
+
+.page-header {
+	background-color: #424242;
+	color: #fff;
+	padding-top: 7px;
+	padding-right: 15px;
+    padding-left: 15px;
+    margin-top: -30px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.content {
+	margin-left: -15px;
+}
+
+.content h2 {
+	background-color: #424242;
+	color:#fff;
+	font-size: 1.2em;
+	padding: 5px;
+}
+
+a {
+	color: #3498db;
+}
+
+a:hover {
+	text-decoration: none;
+	color:#333;
+}
+
+.well {
+    background: #fff;
+    border:none;
+	box-shadow: none;
+    -webkit-box-shadow:none;    
+}
+
+.project {
+    margin-top: 100px;
+		padding-top: 20px;
+    padding-left: 30px;
+    padding-right: 30px;
+	  font-size: 1.3em; 
+}
+
+.project h3 {
+	color:#333;
+	font-size: 2em;
+	padding-left: 10px;
+	border-bottom: 3px solid #3498db;
+	padding: 3px;
+  font: 600 2em/1;
+  text-transform: uppercase;
+  margin-right: 15%;
+}
+
+.pinimg {
+  display: inline-block;
+}
+
+.pinboard img {
+  margin-right: 8px;
+  border-radius: 3px;
+}
+
+.pindetails {
+  width: 80%;
+  float: right;
+  display: inline-block;
+}
+
+.navbar-default .navbar-nav>li>a:hover	 {
+	background-color: #333;
+	color: #fff;
+}
+
+.thumbs {
+	padding-bottom: 20px;
+}
+
+.pinboard {
+  font: normal normal 12px/1.2 Helvetica,Roboto,"Segoe UI",Calibri,sans-serif;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid #efefef; 
+  line-height: 18px;
+
+}
+
+.pinboard:hover{
+  background-color: #f1f7fa;
+}
+
+.pinboard a {
+  color: #3498db;
+  padding: 2px;
+
+}
+
+.underline{
+    border-bottom: 1px solid #efefef; 
+    margin-top: -8px;
+    margin-bottom: 7px;
+}
+
+.moment h4 {
+    font-size: 21px;
+    font-weight: 300;
+    line-height: 24px;
+    color: #292F33;
+    padding-top: 9px;
+    display: inline-block;
+}
+
+.moment .byline {
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 16px;
+    color: #8899A6;
+    display: inline-block;
+}
+
+#title-header {
+	font: 900 3.5em/1 'Raleway', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: .5em;
+    white-space: nowrap;
+    display: inline-block;
+    position: relative;
+    letter-spacing: .1em;
+	float: left;
+	margin-top: 10px;
+	padding-left: 60px;
+}
+
+.front-break {
+	background-color: #fff;
+	color: #424242;
+	font-size: 2em;
+	padding-left: 30px;
+	text-align: left;
+}
+
+#words {
+	height: 260px;
+	background-color: #fff;
+}
+
+.presentation-title{
+    padding: 5px;
+    font-family: 'Passion One', cursive;
+    font-size: 3em;
+    color: #fff;
+    text-shadow: 2px 1px #424242;
+    background-color: #5D6268;
+    }
+
+
+/* masonry css*/
+#grid[data-columns]::before {
+	content: '4 .column.size-1of4';
+}
+
+/* These are the classes that are going to be applied: */
+.column { float: left; }
+.size-1of4 { width: 25%; }
+
+.searchrow {
+      background: #5D6268;
+    }    
+    .searchrow h3 {
+      color: #fff;
+      display: inline-block;      
+    }
+
+    .init, .contact {
+      padding: 4px;
+      border: 1px solid #efefef;
+      margin-top: 12px;
+      padding-bottom: 10px;
+    }
+
+    .contact-name {
+      font-size: 1.1em;
+      font-weight: 500;
+    }
+
+    .initiative {
+        padding: 14px 10px 14px 20px;
+        height: 500px;
+        overflow-y: scroll;
+        border-right: 1px solid #efefef;
+        border-bottom: 1px solid #efefef;
+    }
+
+
+    .search {
+      float: right;
+      display: inline-block;
+      padding-left: 15px;
+      margin-bottom: 20px;
+      margin-top: -40px;
+    }
+
+    .btn-group-lg>.btn, .btn-lg {
+      float:right;
+      margin-bottom: 10px;
+    }
+    .details {
+      margin-left: 10px;
+      margin-right: 10px;
+      padding-bottom: 20px;
+      height:45px;
+    }
+
+    .title {
+      height: 120px;
+      background-color: #5D6268;
+      color: #fff;
+      padding: 0px 10px 5px 10px ;
+      display: inline-block;
+      width: 100%;
+      font-size: .8em;
+    }
+
+    .description {
+      margin-left: 10px;
+      margin-right: 10px;
+      padding-bottom: 20px;
+    }
+
+  
+
+.timeline-event-content p, .timeline-event-content ul{
+	display: inline-block;
+	width: 100%;
+	background-color: #fff;
+	margin-top: -10px;
+	padding: 10px;
+
+}
+
+.skill {
+  border: 1px solid #efefef;
+  padding: 10px;
+  margin-top: 10px;
+  height: 300px;
+}
+
+.skill h3 {
+  display: inline-block;
+  width: 100%;
+  padding: 5px;
+  background-color: #3498db;
+  color: #fff;
+}
+
+.bio-pic {
+  margin: 5px;
+  border: 2px solid #fff;
+}
+
+.artist {
+			height:220px;
+		}
+
+		.artist_title  {
+			transition: opacity 2s ease;
+		    opacity: 0; 
+		    overflow: hidden;
+		    height: 220px;
+		    width: 100%;
+		    margin: 0;
+		    padding: 10px;
+
+		}
+
+		.artist_title:hover, .artist_title:hover a {
+			opacity: 1;
+    		height: auto;
+    		background-color: rgba(0,0,0,.4);
+    		color: #fff;
+    		text-decoration: none;
+		}
+
+		.no-gutter > [class*='col-'] {
+		    padding-right:0;
+		    padding-left:0;
+		}
+
+		input {
+			width: 100%;
+		}
+
+		#big {
+			font-size: 4em;
+			display: inline-block;
+			float: left;
+			color: #fff;
+			background-color: #3498db;
+			padding: 4px;
+			margin-right: 3px;
+			text-align: center;
+
+		}
+		
+		#details {
+			font-size: 2em;
+		}
+
+		#readmore {
+			font-weight: 300;
+		}
+
+//PANEL
+
+.panel-group {
+    margin-bottom: 20px;
+    margin-top: 100px;
+}
+
+.panel-default {
+  border: #424242;
+}    
+
+.panel-default>.panel-heading {
+  cursor: pointer;
+  background-color: #424242;
+    color: #fff;
+}
+
+.panel-heading, .panel-group .panel {
+  border-radius: 0px;
+}
+
+.bignumber {
+  display: inline-block;
+  color: #3498db;
+  font-weight: 200;
+  font-size: 5em;
+  margin-top: -20px;
+}
+
+#details {
+  color: #424242;
+  font-size: 1.8em;
+  font-weight: 200;
+  display: inline-block;
+  padding-left: 10px;
+}
+
+@media (min-width: 1200px) {
+	.container {
+	    width: 1170px;
+	}
+
+}
+
+@media (max-width: 768px) {
+	.navbar-nav {
+    	float: right;
+    	margin: 0;
+    	padding-top: 10px;    	
+    }
+    #title-header {
+	font: 900 2em 'Raleway', sans-serif;
+   
+}
+
+}
+
+@media (min-width: 768px) {
+  .navbar-nav {
+      float: right;
+      margin: 0;
+      padding-top: 10px;      
+    }
+}
