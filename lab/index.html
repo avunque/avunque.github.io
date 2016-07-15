@@ -128,11 +128,11 @@
           jsonp:"cb",
           dataType:'jsonp',
           success: function(data) {
-            console.log('Data: ')
+            console.log('Data: ');
             console.log(data); //dumps the data to the console to check if the callback is made successfully.
             $.each(data, function(index, item){
-                console.log(index,item);
-                console.log('#pinboard').append('<div class="pinboard"><a href="' + item.u + '">' + item.d
+                console.log(index + ' / ' + item);
+                console.log('<div class="pinboard"><a href="' + item.u + '">' + item.d
         + '</a>  -  ' + item.dt.substring(0,10) +' </div>');
                 $('#pinboard').append('<div class="pinboard"><a href="' + item.u + '">' + item.d
         + '</a>  -  ' + item.dt.substring(0,10) +' </div>');
