@@ -118,7 +118,7 @@
 			var app = angular.module('myApp', ['ngSanitize']);
 			//
 			app.controller('SuperCtrl', function($scope, $http) {
-			    $http.get("./json/weeklyPhotos.json")
+			    $http.get("http://blogs.netedu.info/wp-json/wp/v2/posts?tag=cinema")
 			    .success(function(response) {$scope.entries = response;});
 			});
 			
