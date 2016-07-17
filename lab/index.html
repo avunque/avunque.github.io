@@ -127,7 +127,7 @@
         $.ajax({
           url:'http://feeds.del.icio.us/v2/json/avunque',
           jsonp:"cb",
-          dataType:'jsonp',
+          dataType:'json',
           success: function(data) {
             console.log('Data: ');
             console.log(data); //dumps the data to the console to check if the callback is made successfully.
