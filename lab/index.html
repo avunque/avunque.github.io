@@ -129,13 +129,8 @@
           jsonp:"cb",
           dataType:'json',
           success: function(data) {
-            console.log('Data: ');
             console.log(data); //dumps the data to the console to check if the callback is made successfully.
-            console.log('I am doing the bookmarks>>>');
             $.each(data, function(index, item){
-                console.log(index + ' / ' + item);
-                console.log('<div class="pinboard"><a href="' + item.u + '">' + item.d
-        + '</a>  -  ' + item.dt.substring(0,10) +' </div>');
                 $('#pinboard').append('<div class="pinboard"><a href="' + item.u + '">' + item.d
         + '</a>  -  ' + item.dt.substring(0,10) +' </div>');
               if (index == 10) return false; //only display 5 items
@@ -148,9 +143,9 @@
       
     </div>
     <div class="col-md-3">
-         <a class="twitter-timeline"  href="https://twitter.com/twoodwar" data-widget-id="474560125756129280">Tweets by @twoodwar</a>
-            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>        
-      
+         <a class="twitter-timeline"  href="https://twitter.com/avunque" data-widget-id="467366873378463744">Tweets by @avunque</a>
+            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+          
     </div>
   </div>
 </div>
