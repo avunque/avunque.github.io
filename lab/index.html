@@ -131,13 +131,13 @@
                 {
                     var data = JSON.parse(xhr.responseText);
                     if(data.status == 'ok'){
-                        var output = '';
+                        var output = '<div class="underline" > ';
                         for(var i=0;i<data.items.length;++i){
-                            output += '<p><h5><a href="' +
+                            output += '<p><a href="' +
                                     data.items[i].link + '" >' +
-                                    data.items[i].title + '</a></h5></p>';
+                                    data.items[i].title + '</a></p>';
                         }
-                        content.innerHTML = output;
+                        content.innerHTML = output+'</div>';
                     }
                 }
             };
