@@ -124,7 +124,7 @@
         <div id="content"></div>
 
     <script type="text/javascript">
-        var content = document.getElementById('pinboard');
+        var content = document.getElementById('content');
         var xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function(){
                 if (xhr.readyState==4 && xhr.status==200)
@@ -133,9 +133,9 @@
                     if(data.status == 'ok'){
                         var output = '';
                         for(var i=0;i<data.items.length;++i){
-                            output += '<p><a href="' +
+                            output += '<p><h5><a href="' +
                                     data.items[i].link + '" >' +
-                                    data.items[i].title + '</a></p>';
+                                    data.items[i].title + '</a></h5></p>';
                         }
                         content.innerHTML = output;
                     }
