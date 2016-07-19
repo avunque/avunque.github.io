@@ -131,11 +131,11 @@
                 {
                     var data = JSON.parse(xhr.responseText);
                     if(data.status == 'ok'){
-                        var output = ''+data.feed.title+'';
+                        var output = '';
                         for(var i=0;i<data.items.length;++i){
-                            output += '<p><h2><a href="' +
+                            output += '<p><a href="' +
                                     data.items[i].link + '" >' +
-                                    data.items[i].title + '</h2></a></p>';
+                                    data.items[i].title + '</a></p>';
                         }
                         content.innerHTML = output;
                     }
