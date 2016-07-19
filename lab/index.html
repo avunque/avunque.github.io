@@ -120,27 +120,31 @@
     <div class="underline">
       <h4>Bookmarks</h4> <div class="byline">by <a href="http://del.icio.us/avunque">avunque</a></div>
     </div>
-    <script type="text/javascript">                
-        $(document).ready(function(){ 
-          console.log("ready"); //just to check in the firebug console.
-          
-        $.ajax({
-          url:'http://feeds.del.icio.us/v2/json/avunque',
-          //url='http://rss2json.com/api.json?rss_url=https%3A%2F%2Fwww.diigo.com%2Frss%2Fuser%2Fskateweb%2F'
-          jsonp:"cb",
-          dataType:'json',
-          success: function(data) {
-            console.log(data); //dumps the data to the console to check if the callback is made successfully.
-            $.each(data, function(index, item){
-                $('#pinboard').append('<div class="pinboard"><a href="' + item.u + '">' + item.d
-        + '</a>  -  ' + item.dt.substring(0,10) +' </div>');
-              if (index == 10) return false; //only display 5 items
-              }); //each
-            } //success
-          }); //ajax
-          
-        });//ready
-  </script>
+    
+    <div id="content"></div>
+
+    <script type="text/javascript">
+        var content = document.getElementById('content');
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function(){
+                if (xhr.readyState==4 && xhr.status==200)
+                {
+                    var data = JSON.parse(xhr.responseText);
+                    if(data.status == 'ok'){
+                        var output = ';
+                        for(var i=0;i<data.items.length;++i){
+                            output += '<p><a href="' +
+                                    data.items[i].link + '" >' +
+                                    data.items[i].title + '</a></p>';
+                        }
+                        content.innerHTML = output;
+                    }
+                }
+            };
+        xhr.open('GET','http://rss2json.com/api.json?rss_url=https%3A%2F%2Fwww.diigo.com%2Frss%2Fuser%2Fskateweb%2F', true);
+        //xhr.open('GET','http://rss2json.com/api.json?rss_url=https%3A%2F%2Fnews.ycombinator.com%2Frss',true);
+        xhr.send();
+    </script>
       
     </div>
     <div class="col-md-3">
