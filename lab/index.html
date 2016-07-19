@@ -131,7 +131,8 @@
                 {
                     var data = JSON.parse(xhr.responseText);
                     if(data.status == 'ok'){
-                        var output = '<div class="underline" > ';
+                        var output = '<div class="underline" ';
+                        output += '<style="color:#0000FF; font:normal 12px/1.2 Helvetica,Roboto,Segoe UI,Calibri,sans-serif">
                         for(var i=0;i<data.items.length;++i){
                             output += '<p><a href="' +
                                     data.items[i].link + '" >' +
