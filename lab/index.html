@@ -121,17 +121,17 @@
       <h4>Bookmarks</h4> <div class="byline">by <a href="http://del.icio.us/avunque">avunque</a></div>
     </div>
     
-        <div id="content"></div>
+        <div id="contentino"></div>
 
     <script type="text/javascript">
-        var content = document.getElementById('content');
+        var content = document.getElementById('contentino');
         var xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function(){
                 if (xhr.readyState==4 && xhr.status==200)
                 {
                     var data = JSON.parse(xhr.responseText);
                     if(data.status == 'ok'){
-                        var output = '<div class="underline" ';
+                        var output = '<p></p><div class="underline" ';
                         output += 'style="color:#0000FF; font:normal 12px/1.2 Helvetica,Roboto,Segoe UI,Calibri,sans-serif">';
                         for(var i=0;i<data.items.length;++i){
                             output += '<p><a href="' +
