@@ -118,28 +118,32 @@
     <div class="underline">
       <h4>Bookmarks</h4> <div class="byline">by <a href="https://pinboard.in/u:twwoodward">twwoodward</a></div>
     </div>
-    <script type="text/javascript">                
-        $(document).ready(function(){ 
-          console.log("ready"); //just to check in the firebug console.
-          
-        $.ajax({
-          url:'https://feeds.pinboard.in/json/u:twwoodward/',
-          jsonp:"cb",
-          dataType:'jsonp',
-          success: function(data) {
-            console.log(data); //dumps the data to the console to check if the callback is made successfully.
-            $.each(data, function(index, item){
-                $('#pinboard').append('<div class="pinboard"><a href="' + item.u + '">' + item.d
-        + '</a>  -  ' + item.dt.substring(0,10) +' </div>');
-              if (index == 10) return false; //only display 5 items
-              }); //each
-            } //success
-          }); //ajax
-          
-        });//ready
-  </script>
-      
+    
+    <div id="content"></div>
+    <script type="text/javascript">
+        var content = document.getElementById('content');
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function(){
+                if (xhr.readyState==4 && xhr.status==200)
+                {
+                    var data = JSON.parse(xhr.responseText);
+                    if(data.status == 'ok'){
+                        var output = '<h1>'+data.feed.title+'</h1>';
+                        for(var i=0;i<data.items.length;++i){
+                            output += '<p><h2><a href="' +
+                                    data.items[i].link + '" >' +
+                                    data.items[i].title + '</h2></a></p>';
+                        }
+                        content.innerHTML = output;
+                    }
+                }
+            };
+        xhr.open('GET','http://rss2json.com/api.json?rss_url=https%3A%2F%2Fwww.diigo.com%2Frss%2Fuser%2Fskateweb%2F', true);
+        //xhr.open('GET','http://rss2json.com/api.json?rss_url=https%3A%2F%2Fnews.ycombinator.com%2Frss',true);
+        xhr.send();
+    </script>
     </div>
+    
     <div class="col-md-3">
          <a class="twitter-timeline"  href="https://twitter.com/twoodwar" data-widget-id="474560125756129280">Tweets by @twoodwar</a>
             <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>        
