@@ -121,7 +121,7 @@
       <h4>Bookmarks</h4> <div class="byline">by <a href="http://del.icio.us/avunque">avunque</a></div>
     </div>
     
-    <div id="content"></div>
+        <div id="content"></div>
 
     <script type="text/javascript">
         var content = document.getElementById('content');
@@ -131,11 +131,11 @@
                 {
                     var data = JSON.parse(xhr.responseText);
                     if(data.status == 'ok'){
-                        var output = ';
+                        var output = ''+data.feed.title+'';
                         for(var i=0;i<data.items.length;++i){
-                            output += '<p><a href="' +
+                            output += '<p><h2><a href="' +
                                     data.items[i].link + '" >' +
-                                    data.items[i].title + '</a></p>';
+                                    data.items[i].title + '</h2></a></p>';
                         }
                         content.innerHTML = output;
                     }
