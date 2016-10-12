@@ -131,9 +131,9 @@
 
 		<script>
 			var app = angular.module('myApp', ['ngSanitize']);
-			//
+			// inside was $http.get("http://blogs.netedu.info/wp-json/wp/v2/posts?tag=cinema")
 			app.controller('SuperCtrl', function($scope, $http) {
-			    $http.get("http://blogs.netedu.info/wp-json/wp/v2/posts?tag=cinema")
+			    $http.get("http://blogs.netedu.info/wp-json/wp/v2/posts?filter[tag]=cinema")
 			    .success(function(response) {$scope.entries = response;});
 			});
 			
