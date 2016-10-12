@@ -1,0 +1,148 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Photography</title>
+		<link rel="stylesheet" href="css/timeliner.css" type="text/css" media="screen">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+		
+    <!-- NEW, Flickr stunt, Oct. 11 -->
+		
+<!-- DC jflickrfeed -->
+<link href="http://cdn.dcodes.net/2/flickr/css/dc_jflickrfeed.css" type="text/css" rel="stylesheet" />
+<script src="http://cdn.dcodes.net/2/flickr/js/jflickrfeed.js"></script>
+
+<!-- DC jflickrfeed: Colorbox Lightbox -->
+<link href="http://cdn.dcodes.net/2/flickr/js/colorbox/colorbox.css" rel="stylesheet" type="text/css" media="screen" /> 
+<script src="http://cdn.dcodes.net/2/flickr/js/colorbox/jquery.colorbox-min.js"></script>
+
+<!-- DC jflickrfeed: Cycle Slider -->
+<script src="http://cdn.dcodes.net/2/flickr/js/cycle/jquery.cycle.all.js"></script>
+<!-- END new -->
+		
+	</head>
+   <body>
+   <nav class="navbar navbar-default navbar-fixed-top"">
+        <h2 id="title-header"><a href="./">Antonio Vantaggiato</a></h2>
+  <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <!--<a class="navbar-brand" href="#">avunque</a> -->
+    </div>
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="photos.html">Photos</a></li>
+        <li><a href="presentations.html">Presentations</a></li>
+        <li><a href="timeline.html">Work Timeline</a></li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+		<!-- Wrapper -->    	
+			<div id="wrapper container-fluid" ng-app="myApp" ng-controller="SuperCtrl"> 
+					<div class="row searchrow">					
+					    <div class="col-md-10 col-md-offset-1 col-sm-12">
+					    	<h3 class="presentation-title searchrow">Weekly Photos</h3>
+					    </div>
+					</div>
+					<div class="row">
+						<div class="col-md-5 col-md-offset-1 col-sm-12 well well-lg"">
+					    	<p style="font-size:1.2em">
+					    	This set of photos links to individual blog posts where I've chosen photos to represent that week's efforts. It 
+					    	reflects a choice to put more than select 'perfect' photos out there for the public and it puts me in the habit of reflecting regularly.
+					    	</p>
+								<!--<form class="form-inline">
+									<input ng-model='search.title.rendered' type="text" placeholder="Filter by" autofocus>
+					  			</form>-->				
+				  		</div>	
+				  		<div class="col-md-5 well well-lg" >
+				  		<div id="flickrcount"> 
+				  		<div id="details">photos worth of practice
+				  		<br/>since 
+				  		</div>
+				  		</div>
+				  		 <script type="text/javascript">                
+					        $(document).ready(function(){ 
+					          console.log("ready"); //just to check in the firebug console.
+					          
+					        $.ajax({
+					          url:'https://api.flickr.com/services/rest/?method=flickr.people.getInfo&api_key=f978c7d0ab4e8c5c8093126196337f1f&user_id=90625980@N00&format=json&jsoncallback=?',
+					          dataType:'jsonp',
+					          success: function(data) {
+					            console.log(data); //dumps the data to the console to check if the callback is made successfully.
+					            $.each(data, function(index, item){
+					                $('#flickrcount').prepend( '<div class="bignumber">' + numberWithCommas(item.photos.count._content) + '</div>');
+					         		$('#details').append( timeConverter(item.photos.firstdate._content));
+					                
+					              if (index == 10) return false; 
+					              }); //each
+					            } //success
+					          }); //ajax
+					          
+					        });//ready
+						function numberWithCommas(x) {
+							    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+							}
+							function timeConverter(UNIX_timestamp){
+							  var a = new Date(UNIX_timestamp * 1000);
+							  var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+							  var year = a.getFullYear();
+							  var month = months[a.getMonth()];
+							  var date = a.getDate();
+							  var hour = a.getHours();
+							  var min = a.getMinutes();
+							  var sec = a.getSeconds();
+							  var time = date + ' ' + month + ' ' + year;
+							  return time;
+							}
+					  </script>
+				  		</div>	
+					</div>
+
+				<!-- Main -->
+					<div class="row no-gutter">
+						<div class="col-md-10 col-md-offset-1 col-xsm-12">
+							<a href="{{ entry.link }}">		 
+							<div ng-repeat="entry in entries | filter: search| orderBy:'-id' : reverse" class="col-lg-2 col-md-3 col-xs-12 artist" style="background-image: url({{ entry.better_featured_image.media_details.sizes.medium.source_url }}); background-repeat: no-repeat; background-position: center; background-size: cover ">	
+						         <div class="artist_title"><h4 ng-bind-html="entry.title.rendered"></h4>
+					         	</a>	
+					        </div>		      
+					    </div>						
+					</div>				
+			</div>
+		
+
+
+	
+<!-- NEW, October 11, Another Flickr stunt -->
+<!-- DC Flickr Feed Start -->
+<div id="dc_jflickr_feed_container" style="width:80%;">
+  <ul id="jflickr_cbox" class="dc_jflickr_thumbs"></ul>
+</div>
+<!-- DC Flickr Feed End -->
+<div class="dc_clear"></div> <!-- line break/clear line --> 
+
+<!-- DC Flickr Feed Settings --> 
+<script type="text/javascript">
+	$('#jflickr_cbox').jflickrfeed({
+		limit: 48, // number of images to show
+		qstrings: { id: '90625980@N00' // id of flickr gallery (use idgettr.com to get flickr gallery id)
+		},
+		// Small images: {{image_s}}
+		// Medium images: {{image}}
+		// Large images: {{image_b}}
+		itemTemplate: '<li>' + '<a rel="colorbox" href="{{image_b}}" title="{{title}}">' + '<img src="{{image_s}}" alt="{{title}}" />' + '</a>' + '</li>'
+	}, function(data) {
+		$('#jflickr_cbox a').colorbox();
+	});
+</script>
+
+	</body>
+</html>
