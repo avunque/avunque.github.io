@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>avunque's dream</title>
+    <title>avunque's slideshows</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
@@ -68,96 +68,7 @@
         <img src="http://avunque.github.io/images/birkin-delon.png" class="img-responsive bio-pic" alt="Image of two actors" title="I am a liar.">
         </div>
     </div>       
-    <!-- <div class="row">
-        <div class="col-md-9 col-sm-12 col-md-offset-2 project">        
-        <h3>Current Foci</h3>
-        <div class="col-md-6">
-        <h4>WordPress</h4>
-        <p>I've been doing a lot with WordPress in education for the last few years. It's been an interesting journey.</p>
-        <ul>
-          <li>from 0 to 7M dollars in eight years</li>
-          <li>STEMmED Project</li>
-          <li>faculty and program development</li>
-          <li>course creation and portfolios</li>
-          <li>student/faculty support</li>
-          <li>zen of teaching</li>
-        </ul>
-        </div>
-        <h4>APIs</h4>                 
-    </div>
-  </div>-->
-  <div class="row col-md-offset-1 project moment">
-  <h3>Recent Activity</h3>
-    <div class="col-md-3" id="blog">
-   <div class="underline">
-      <h4>Blog Posts</h4> <div class="byline">by <a href="http://blogs.netedu.info">avunque</a></div>      
-    </div>
-    <script type="text/javascript">                
-        $(document).ready(function(){ 
-          console.log("ready"); //just to check in the firebug console.
-          
-        $.ajax({
-          url:'http://blogs.netedu.info/wp-json/wp/v2/posts',
-          jsonp:"cb",
-          dataType:'json',
-          success: function(data) {
-            console.log(data); //dumps the data to the console to check if the callback is made successfully.
-            console.log('I am doing the blog posts>>>');
-            $.each(data, function(index, item){
-                if (item.better_featured_image != null){ var photo ='<div class="pinimg"><img src="'+ item.better_featured_image.media_details.sizes.thumbnail.source_url +'" width="40px" height="40px"></div>' } else {var photo ='<div class="pinimg"><img src="imgs/default.jpg" width="40px" height="40px"></div>';};              
-                $('#blog').append('<a href="' + item.link + '"><div class="pinboard">' + photo + '<div class="pindetails"> ' +item.title.rendered + ' <br/> published on ' + item.date.substring(0,10) +' </div> </div></a>');              
-              if (index == 10) return false; //only display 10 items
-              }); //each
-            } //success
-          }); //ajax
-          
-        });//ready
-  </script>
-          
-    </div>
-    <div class="col-md-4" id="pinboard">
-    <div class="underline">
-      <h4>Bookmarks</h4> <div class="byline">by <a href="http://del.icio.us/avunque">avunque</a></div>
-    </div>
-    
-        <div id="contentino"></div>
-
-    <script type="text/javascript">
-        var content = document.getElementById('contentino');
-        var xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function(){
-                if (xhr.readyState==4 && xhr.status==200)
-                {
-                    var data = JSON.parse(xhr.responseText);
-                    if(data.status == 'ok'){
-                        var output = '<p></p><div class="underline" ';
-                        output += 'style="color:#0000FF; font:normal 12px/1.2 Helvetica,Roboto,Segoe UI,Calibri,sans-serif">';
-                        for(var i=0;i<data.items.length;++i){
-                            output += '<p><a href="' +
-                                    data.items[i].link + '" >' +
-                                    data.items[i].title + '</a></p>';
-                        }
-                        content.innerHTML = output+'</div>';
-                    }
-                }
-            };
-        xhr.open('GET','http://rss2json.com/api.json?rss_url=https%3A%2F%2Fwww.diigo.com%2Frss%2Fuser%2Fskateweb%2F', true);
-        //xhr.open('GET','http://rss2json.com/api.json?rss_url=https%3A%2F%2Fnews.ycombinator.com%2Frss',true);
-        xhr.send();
-    </script>
-      
-    </div>
-   <!--    <div class="col-md-3">
-            <a class="twitter-timeline"  href="https://twitter.com/avunque" data-widget-id="467366873378463744">Tweets by @avunque</a>
-            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-   </div> 
--->    
-   <div class="col-md-3">
-     <a class="twitter-timeline" href="http://twitter.com/avunque">Tweets by avunque</a> 
-    <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
-    </div>
-    
-  </div>
+   
     
      <div class="row">
         <div class="col-md-6 col-md-offset-1 col-sm-15 project">
