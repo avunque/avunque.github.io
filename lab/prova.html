@@ -19,7 +19,20 @@
   background-position: center; 
 }
 </style>
-	  
+
+<!-- END new -->
+		
+ </head>
+	
+   <body>
+   <div class="container">
+					          
+<!-- Main -->
+	                       
+    <div class="row no-gutter" id="theContent">
+       </div>
+
+	   HOLA
 <script>
 //by T. Woodward. See: https://codepen.io/twwoodward/pen/MQRLao
 		
@@ -35,16 +48,14 @@ fetch(url)
     writeEvents(data[i]);
   } 
 });
+	
 function writeEvents(data) {
   var post = jQuery('#theContent').append(
     jQuery(
        '<div class="col-md-3 square" 
-	    style="background-image: url('+findBgImg(data.content.rendered)+')">' + '<a href="' + data.link + '">' +
-      data.title.rendered + '</a>'
-      + '</div>'
-    ) 
-  );
+	    style="background-image: url('+findBgImg(data.content.rendered)+')">' + '<a href="' + data.link + '">' + data.title.rendered + '</a>' + '</div>'));
 }
+	  
 //finds your image from the post content
 function findBgImg(content){
   img = content.match('<img [^>]*src="([^"]*)"[^>]*>');  
@@ -54,26 +65,8 @@ function findBgImg(content){
     return 'https://c1.staticflickr.com/5/4655/26616606138_0942be75c9.jpg'//whatever your default image might be if it can't find one
   }
 }
-	</script>
-
-<!-- END new -->
-		
- </head>
-	
-   <body>
-   <div class="container">
-    
-	   
-console.log("ready"); //just to check in the firebug console.
-					          
-<!-- Main -->
-	                       
-    <div class="row no-gutter" id="theContent">
-       </div>
-
-	   HOLA
-
-  </div>
+	</script>	   
+	   </div>
 ---
 END
   </body>
