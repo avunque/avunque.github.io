@@ -1,0 +1,251 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Avunque's Photography</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<link rel="stylesheet" href="css/timeliner.css" type="text/css" media="screen">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<!-- ORIG <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"> -->
+		<link href="vendor/twbs/bootstrap/dist/css/me.css" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Passion+One' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Raleway:600,900' rel='stylesheet' type='text/css'>
+    <!-- ORIGINAL <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta.2/css/bootstrap.css" type="text/css">
+	
+		<!-- NEW, October 11, Another Flickr stunt -->
+	
+		<!-- NEW, Flickr stunt, Oct. 11 -->
+		
+<!-- <link type="text/css" rel="stylesheet" href="http://www.dcodes.net/2/docs/dc_css/dcodes.css" /> -->
+<script type="text/javascript" src="http://www.dcodes.net/2/jquery.min.js"></script>  -->
+<script type="text/javascript" src="http://www.dcodes.net/2/docs/dc_scripts/dcodes.js"></script>
+<link type="text/css" rel="stylesheet" href="http://www.dcodes.net/2/docs/dc_css/dc_tooltips.css" /> 
+<script type="text/javascript" src="http://www.dcodes.net/2/docs/dc_scripts/dc_tooltips.js"></script>
+
+    <!-- NEW, Flickr stunt, Oct. 11 -->
+		
+<!-- DC jflickrfeed -->
+<link href="http://cdn.dcodes.net/2/flickr/css/dc_jflickrfeed.css" type="text/css" rel="stylesheet" /> 
+<script src="http://cdn.dcodes.net/2/flickr/js/jflickrfeed.js"></script>
+
+	<script src="http://cdn.dcodes.net/2/flickr/js/cycle/jquery.cycle.all.min.js"></script>
+	<script src="http://cdn.dcodes.net/2/flickr/js/jflickrfeed.min.js"></script>
+	<script src="http://cdn.dcodes.net/2/flickr/js/setup.js"></script>
+		
+		
+<!-- DC jflickrfeed: Colorbox Lightbox -->
+<link href="http://cdn.dcodes.net/2/flickr/js/colorbox/colorbox.css" rel="stylesheet" type="text/css" media="screen" /> 
+<script src="http://cdn.dcodes.net/2/flickr/js/colorbox/jquery.colorbox-min.js"></script>
+
+<!-- DC jflickrfeed: Cycle Slider -->
+<script src="http://cdn.dcodes.net/2/flickr/js/cycle/jquery.cycle.all.js"></script>
+<!-- END new -->
+
+<!-- new from Tom-->
+<style>		
+ .col-md-3 {
+  height: 300px;
+  border: 1px solid;
+  background-repeat: no-repeat;
+  background-position: center; 
+}
+</style>
+<!-- END new -->
+		
+	</head>
+   <body>
+   <nav class="navbar navbar-default navbar-fixed-top"">
+        <h2 id="title-header"><a href="./">Antonio Vantaggiato</a></h2>
+  <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <!--<a class="navbar-brand" href="#">avunque</a> -->
+    </div>
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+	<li><a href="classes.html">Classes</a></li>
+        <li class="active"><a href="photos.html">Photos</a></li>
+        <li><a href="slides.html">Preso</a></li>
+        <li><a href="TEDx.html">TEDx</a></li>
+        <li><a href="http://www.skateofweb.com">Skate</a></li>
+        <li><a href="http://www.netedu.info">netedu</a></li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+		<!-- Wrapper -->    	
+			<div id="wrapper container-fluid" ng-app="myApp" ng-controller="SuperCtrl"> 
+					<div class="row searchrow">					
+					    <div class="col-md-10 col-md-offset-1 col-sm-12">
+					    	<h3 class="presentation-title searchrow">Weekly Photos</h3>
+					    </div>
+					</div>
+					<div class="row">
+						<div class="col-md-5 col-md-offset-1 col-sm-12 well well-lg"">
+					    	<p style="font-size:1.2em">
+					    	This page is shamefully copied after <a href="http://tomwoodward.us/photos.html">Tom Woodward's</a> own. The idea is 
+			 to publish weekly (or so) one or two photos that I like on my blog and place them in this gallery, each with a link to its original blog post.  
+							Down on the page there is simply a feed from my Flickr photostream.
+					    	</p>
+								<!--<form class="form-inline">
+									<input ng-model='search.title.rendered' type="text" placeholder="Filter by" autofocus>
+					  			</form>-->				
+				  		</div>	
+				  		<div class="col-md-5 well well-lg" >
+				  		<div id="flickrcount"> 
+				  		<div id="details">photos 
+				  		<br/>since 
+				  		</div>
+				  		</div>
+				  		 <script type="text/javascript">                
+					        $(document).ready(function(){ 
+					          console.log("ready"); //just to check in the firebug console.
+					          
+					        $.ajax({
+					          url:'https://api.flickr.com/services/rest/?method=flickr.people.getInfo&api_key=f978c7d0ab4e8c5c8093126196337f1f&user_id=90625980@N00&format=json&jsoncallback=?',
+					          dataType:'jsonp',
+					          success: function(data) {
+					            console.log(data); //dumps the data to the console to check if the callback is made successfully.
+					            $.each(data, function(index, item){
+					                $('#flickrcount').prepend( '<div class="bignumber">' + numberWithCommas(item.photos.count._content) + '</div>');
+					         		$('#details').append( timeConverter(item.photos.firstdate._content));
+					                
+					              if (index == 10) return false; 
+					              }); //each
+					            } //success
+					          }); //ajax
+					          
+					        });//ready
+						function numberWithCommas(x) {
+							    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+							}
+							function timeConverter(UNIX_timestamp){
+							  var a = new Date(UNIX_timestamp * 1000);
+							  var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+							  var year = a.getFullYear();
+							  var month = months[a.getMonth()];
+							  var date = a.getDate();
+							  var hour = a.getHours();
+							  var min = a.getMinutes();
+							  var sec = a.getSeconds();
+							  var time = date + ' ' + month + ' ' + year;
+							  return time;
+							}
+					  </script>
+				  		</div>	
+					</div>
+
+	
+				<!-- Main -->
+                                         <div class="row no-gutter" id="theContent">
+                                         </div>
+			
+			</div>
+		
+
+		<!-- Scripts -->
+
+	<!-- ************* -->
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+			<script type="text/javascript" src="js/angular-sanitize.js"></script>
+
+	<!-- ************* -->
+
+<!-- New Scripts -->
+		<script>
+//by T. Woodward. See: https://codepen.io/twwoodward/pen/MQRLao
+		
+const url = 'https://blogs.netedu.info/wp-json/wp/v2/posts?filter[tag]=photo';
+fetch(url)
+  .then(function(response) {
+  // Convert to JSON
+  return response.json();
+})
+  .then(function(data) {
+  // GOOD!
+  for (i = 0; i < data.length; i++) {
+    writeEvents(data[i]);
+  } 
+});
+function writeEvents(data) {
+  var post = jQuery('#theContent').append(
+    jQuery(
+       '<div class="col-md-3 square" 
+	    style="background-image: url('+findBgImg(data.content.rendered)+')">' + '<a href="' + data.link + '">' +
+      data.title.rendered + '</a>'
+      + '</div>'
+    ) 
+  );
+}
+//finds your image from the post content
+function findBgImg(content){
+  img = content.match('<img [^>]*src="([^"]*)"[^>]*>');  
+  if (img && img[1]){
+    return img[1]; 
+  } else {
+    return 'https://c1.staticflickr.com/5/4655/26616606138_0942be75c9.jpg'//whatever your default image might be if it can't find one
+  }
+}
+	</script>
+
+	<!-- END HERE FROM Tom -->
+	
+	
+ <script src="vendor/twbs/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="vendor/twbs/bootstrap/dist/js/salvattore.min.js"></script>   
+
+   <div id="wrapper container-fluid" ng-app="myApp" ng-controller="SuperCtrl"> 
+     <div class="row searchrow">		
+       <div class="col-md-10 col-md-offset-1 col-sm-12">
+            <h3 class="presentation-title searchrow">My Flickr Gallery</h3>
+       </div>
+     </div>
+	</div>
+	
+<!-- DC Flickr Feed Start -->
+<div id="dc_jflickr_feed_container" style="width:80%;">
+  <ul id="jflickr_cbox" class="dc_jflickr_thumbs"></ul>
+</div>
+<!-- DC Flickr Feed End -->
+<div class="dc_clear"></div> <!-- line break/clear line --> 
+
+<!-- DC Flickr Feed Settings --> 
+<script type="text/javascript">
+	$('#jflickr_cbox').jflickrfeed({
+		limit: 48, // number of images to show
+		qstrings: { id: '90625980@N00' // id of flickr gallery (use idgettr.com to get flickr gallery id)
+		},
+		// Small images: {{image_s}}
+		// Medium images: {{image}}
+		// Large images: {{image_b}}
+		itemTemplate: '<li>' + '<a rel="colorbox" href="{{image_b}}" title="{{title}}">' + '<img src="{{image_s}}" alt="{{title}}" />' + '</a>' + '</li>'
+	}, function(data) {
+		$('#jflickr_cbox a').colorbox();
+	});
+</script>
+
+	<hr><hr>
+	
+     <div class="row"> <!-- footer -->
+        <div class="col-md-6 col-md-offset-1 col-sm-15 project">
+          <div class="container">
+                <h6><p class="bg-info">
+                  Format and portfolio idea taken liberally from <a href=
+                     "http://bionicteaching.com/portfolio-work-interweaving-the-personal-api/">Tom Woodward</a>. 
+                  Site hosted on <a href="https://pages.github.com/">GitHub Pages</a>.</p></h6>
+         </div>
+       </div>    
+    </div>
+<p></p>	
+	
+</body>
+</html>
