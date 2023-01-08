@@ -1,0 +1,107 @@
+<html>
+  <head>
+    <style>
+      /* Add some style to the table */
+      table {
+        border-collapse: collapse;
+      }
+      td, th {
+        border: 1px solid black;
+        padding: 10px;
+      }
+      th {
+        background-color: lightgray;
+      }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.15.5/xlsx.full.min.js"></script>
+
+  </head>
+  <body>
+    <!-- Form to get start and end dates from user -->
+    <form>
+      Start date: <input type="date" id="startDate"><br>
+      End date: <input type="date" id="endDate"><br>
+      <input type="button" value="Submit" onclick="displayTable()">
+    </form>
+    <!-- Div to display the table -->
+    <div id="tableContainer"></div>
+    <!-- Button to publish the page -->
+    <button id="publishButton">Publish</button>
+  </body>
+  <script>
+    // Function to display the table
+    function displayTable() {
+      // Get start and end dates from form
+      var startDate = new Date(document.getElementById('startDate').value);
+      var endDate = new Date(document.getElementById('endDate').value);
+
+      // Check that start date is before end date
+      if (startDate > endDate) {
+        alert('Start date must be before end date');
+        return;
+      }
+
+      // Initialize variables
+      var currentDate = startDate;
+      var tableHTML = '';
+      var rowNumber = 1;
+
+      // Build the table rows
+      while (currentDate <= endDate) {
+        // Check if current day is Monday or Wednesday
+        if (currentDate.getDay() == 1 || currentDate.getDay() == 3) {
+          // Build the table row
+          tableHTML += '<tr>';
+          tableHTML += '<td>' + rowNumber + '</td>';
+          tableHTML += '<td>' + currentDate.toDateString() + '</td>';
+          tableHTML += '<td>' + currentDate.toLocaleString('default', { weekday: 'long' }) + '</td>';
+          tableHTML += '<td contenteditable></td>';
+          tableHTML += '<td contenteditable></td>';
+          tableHTML += '</tr>';
+          rowNumber++;
+        }
+        // Move to next day
+        currentDate.setDate(currentDate.getDate() + 1);
+      }
+
+      // Check if any rows were added to the table
+      if (rowNumber == 1) {
+        tableHTML = '<p>No rows to display</p>';
+      } else {
+        // Build the full table HTML
+        tableHTML = '<table><tr><th>Number</th><th>Date</th><th>Week day</th><th>Main concepts</th><th>Details</th></tr>' + tableHTML + '</table>';
+      }
+
+      // Display the table in the table container div
+      document.getElementById('tableContainer').innerHTML = tableHTML;
+
+      document.getElementById('publishButton').addEventListener('click', function() {
+        // Get the table data
+        var table = document.getElementsByTagName('table')[0];  // Get the first table element
+        var data = [];  // Initialize the data array
+        // Iterate through the rows and cells of the table
+        for (var i = 0; i < table.rows.length; i++) {
+          var row = table.rows[i];
+          var rowData = [];
+          for (var j = 0; j < row.cells.length; j++) {
+            rowData.push(row.cells[j].textContent);
+          }
+          data.push(rowData);
+        }
+
+        // Create the Excel file
+        var wb = XLSX.utils.book_new();
+        var ws = XLSX.utils.aoa_to_sheet(data);
+        XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+        var file = new Blob([XLSX.write(wb, {bookType:'xlsx', type:'array'})], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+
+        // Provide a download link for the file
+        var downloadLink = document.getElementById('downloadLink');
+        downloadLink.href = URL.createObjectURL(file);
+        downloadLink.download = 'table.xlsx';
+        downloadLink.style.display = 'block';
+      });
+
+    }
+  </script>
+</html>
