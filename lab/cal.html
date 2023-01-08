@@ -1,0 +1,50 @@
+<html>
+  <head>
+    <title>Magic Table</title>
+    <script src="https://unpkg.com/exceljs@6.7.3/dist/exceljs.min.js"></script>
+  </head>
+  <body>
+    <table id="magic-table">
+      <tr>
+        <td>8</td>
+        <td>1</td>
+        <td>6</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>5</td>
+        <td>7</td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td>9</td>
+        <td>2</td>
+      </tr>
+    </table>
+    <button id="publish-button">Publish</button>
+    <script>
+    const publishButton = document.getElementById('publish-button');
+    publishButton.addEventListener('click', () => {
+      const magicTable = document.getElementById('magic-table');
+      const workbook = new ExcelJS.Workbook();
+      const sheet = workbook.addWorksheet('Magic Table');
+      for (let i = 0; i < magicTable.rows.length; i++) {
+        const row = magicTable.rows[i];
+        for (let j = 0; j < row.cells.length; j++) {
+          const cell = row.cells[j];
+          sheet.getCell(i + 1, j + 1).value = cell.textContent;
+        }
+      }
+      workbook.xlsx.writeBuffer().then((buffer) => {
+        const blob = new Blob([buffer], {type: 'application/octet-stream'});
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'magic-table.xlsx';
+        a.click();
+      });
+    });
+
+    </script>
+  </body>
+</html>
