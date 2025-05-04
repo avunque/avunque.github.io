@@ -1,8 +1,9 @@
 ---
 marp: true
-theme: gaia
+theme: uncover
 paginate: true
 backgroundColor: #ffffff
+description: Una presentación sobre Inteligencia Artificial y su impacto universitario
 style: |
   section {
     font-size: 1.3em;
@@ -17,6 +18,8 @@ style: |
 ---
 
 # Los inicios
+<img src="https://upload.wikimedia.org/wikipedia/commons/7/7e/Computing_Machinery_and_Intelligence_%28first_page%29.png" alt="Turing's Paper" width="600">
+
 
 ![width:600px](https://upload.wikimedia.org/wikipedia/commons/7/7e/Computing_Machinery_and_Intelligence_%28first_page%29.png)
 
