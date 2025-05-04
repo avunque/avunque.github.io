@@ -18,10 +18,8 @@ style: |
 ---
 
 # Los inicios
-<img src="https://upload.wikimedia.org/wikipedia/commons/7/7e/Computing_Machinery_and_Intelligence_%28first_page%29.png" alt="Turing's Paper" width="600">
 
-
-![width:600px](https://upload.wikimedia.org/wikipedia/commons/7/7e/Computing_Machinery_and_Intelligence_%28first_page%29.png)
+![Turing's Paper](img/Turing.jpg)
 
 ---
 
