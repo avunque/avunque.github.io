@@ -11,12 +11,6 @@ style: |
   }
 ---
 
----
-marp: true
-theme: default
-paginate: true
----
-
 # Inteligencia Artificial
 ### Una breve historia
 
