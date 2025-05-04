@@ -1,4 +1,3 @@
-<!-- Tu contenido comienza aquí -->
 ---
 marp: true
 theme: gaia
@@ -9,6 +8,9 @@ style: |
     font-size: 1.3em;
     padding: 2em;
   }
+
+<!-- Tu contenido comienza aquí -->
+
 ---
 
 # Inteligencia Artificial
