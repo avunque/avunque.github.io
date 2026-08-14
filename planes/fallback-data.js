@@ -1,4 +1,4 @@
-window.FALLBACK_COURSES={
+window.FALLBACK_COURSES = {
   "cco460": {
     "key": "cco460",
     "code": "CCO 460",
@@ -753,6 +753,205 @@ window.FALLBACK_COURSES={
         "material": "",
         "notes": "Cierre institucional del semestre",
         "kind": "semester-end"
+      },
+      {
+        "week": "Finales",
+        "number": "",
+        "day": "L",
+        "date": "lun 7 dic",
+        "topic": "🎤 Presentación / entrega del Proyecto Final",
+        "material": "Proyecto final de análisis de datos",
+        "notes": "Primer lunes disponible del período de exámenes finales (3–9 dic)",
+        "kind": "presentation"
+      }
+    ]
+  },
+  "inf105": {
+    "key": "inf105",
+    "code": "INF 105",
+    "title": "Fundamentos de Informática",
+    "schedule": "100% online · asincrónico",
+    "room": "Canvas",
+    "rows": [
+      {
+        "week": "1",
+        "number": "",
+        "day": "Asíncrono",
+        "date": "10–16 ago",
+        "topic": "Unidad 0.1 · Introducción al curso y prontuario",
+        "material": "Prontuario · Itinerario · Reglas y evaluación · Certificación de integridad",
+        "notes": "📝 Foro 1: ¿Quiénes somos? · entrega sugerida: dom 16 ago",
+        "kind": "class"
+      },
+      {
+        "week": "2",
+        "number": "",
+        "day": "Asíncrono",
+        "date": "17–23 ago",
+        "topic": "Unidad 1 · Conceptos generales: comunicación entre computadoras y redes",
+        "material": "Contenido y recursos de la Unidad 1",
+        "notes": "Conceptos básicos de redes y comunicación",
+        "kind": "class"
+      },
+      {
+        "week": "3",
+        "number": "",
+        "day": "Asíncrono",
+        "date": "24–30 ago",
+        "topic": "Unidad 1 · Recursos y servicios disponibles en la Web · Web 2.0 y Web 3.0",
+        "material": "Infografía: What happens in an Internet Minute?",
+        "notes": "Explorar evolución y servicios de la Web",
+        "kind": "class"
+      },
+      {
+        "week": "4",
+        "number": "",
+        "day": "Asíncrono",
+        "date": "31 ago–6 sep",
+        "topic": "Unidad 1 · Blogs: creación y publicación",
+        "material": "Cómo crear un blog · Publicar en el blog",
+        "notes": "Preparación para Nota 3",
+        "kind": "class"
+      },
+      {
+        "week": "5",
+        "number": "",
+        "day": "Asíncrono",
+        "date": "7–13 sep",
+        "topic": "Unidad 1 · Búsqueda y evaluación de información",
+        "material": "Bibliotecas virtuales y recursos externos · Evaluación de calidad",
+        "notes": "📝 Nota 1: Artículo (parte individual y grupal) · entrega sugerida: dom 13 sep",
+        "kind": "assessment"
+      },
+      {
+        "week": "6",
+        "number": "",
+        "day": "Asíncrono",
+        "date": "14–20 sep",
+        "topic": "Unidad 1 · Citas, referencias y plagio",
+        "material": "Política de plagio institucional y general",
+        "notes": "🏛️ EU: mié 16 sep, 12:30–2:00; el curso asincrónico continúa",
+        "kind": "class"
+      },
+      {
+        "week": "7",
+        "number": "",
+        "day": "Asíncrono",
+        "date": "21–27 sep",
+        "topic": "Unidad 1 · Ética informática",
+        "material": "Ética informática: primera y segunda parte",
+        "notes": "Análisis y discusión de situaciones éticas",
+        "kind": "class"
+      },
+      {
+        "week": "8",
+        "number": "",
+        "day": "Asíncrono",
+        "date": "28 sep–4 oct",
+        "topic": "Unidad 1 · Evolución histórica y componentes del sistema computadorizado",
+        "material": "Recursos de la Unidad 1",
+        "notes": "📝 Nota 2: Presentación oral · entrega sugerida: dom 4 oct",
+        "kind": "assessment"
+      },
+      {
+        "week": "9",
+        "number": "",
+        "day": "Asíncrono",
+        "date": "5–11 oct",
+        "topic": "Cierre de Unidad 1 · integración y repaso",
+        "material": "Revisión de conceptos y avance del blog",
+        "notes": "📝 MIDTERM institucional · 5–10 oct",
+        "kind": "midterm"
+      },
+      {
+        "week": "10",
+        "number": "",
+        "day": "Asíncrono",
+        "date": "12–18 oct",
+        "topic": "Unidad 2 · Herramientas de productividad: programas de aplicaciones",
+        "material": "Introducción y recursos de la Unidad 2",
+        "notes": "12 oct feriado; al ser asincrónico no se cancela una sesión",
+        "kind": "class"
+      },
+      {
+        "week": "11",
+        "number": "",
+        "day": "Asíncrono",
+        "date": "19–25 oct",
+        "topic": "Unidad 2 · Programas para presentaciones",
+        "material": "Práctica con herramientas de presentación",
+        "notes": "📝 Nota 3: Publicar en Blog (tema de actualidad en informática) · entrega sugerida: dom 25 oct",
+        "kind": "assessment"
+      },
+      {
+        "week": "12",
+        "number": "",
+        "day": "Asíncrono",
+        "date": "26 oct–1 nov",
+        "topic": "Unidad 2 · Procesador de texto",
+        "material": "Práctica de formato, estructura y documentos",
+        "notes": "Aplicación práctica",
+        "kind": "class"
+      },
+      {
+        "week": "13",
+        "number": "",
+        "day": "Asíncrono",
+        "date": "2–8 nov",
+        "topic": "Unidad 2 · Hoja electrónica de trabajo",
+        "material": "Práctica con hojas de cálculo",
+        "notes": "Datos, fórmulas y presentación de información",
+        "kind": "class"
+      },
+      {
+        "week": "14",
+        "number": "",
+        "day": "Asíncrono",
+        "date": "9–15 nov",
+        "topic": "Unidad 2 · Infografías e integración de herramientas",
+        "material": "Actividades de la Unidad 2",
+        "notes": "📝 Nota 4: Ética + Infografía + Hoja electrónica · entrega sugerida: dom 15 nov",
+        "kind": "assessment"
+      },
+      {
+        "week": "15",
+        "number": "",
+        "day": "Asíncrono",
+        "date": "16–22 nov",
+        "topic": "Unidad 3 · Proyecto Final: introducción y planificación",
+        "material": "Introducción a la Unidad 3 · selección/definición del proyecto",
+        "notes": "Comenzar Proyecto Final",
+        "kind": "class"
+      },
+      {
+        "week": "16",
+        "number": "",
+        "day": "—",
+        "date": "23–29 nov",
+        "topic": "🦃 Receso de Thanksgiving",
+        "material": "Sin trabajo académico nuevo",
+        "notes": "Receso institucional",
+        "kind": "no-class"
+      },
+      {
+        "week": "17",
+        "number": "",
+        "day": "Asíncrono",
+        "date": "30 nov–2 dic",
+        "topic": "Unidad 3 · Proyecto Final: desarrollo y cierre del curso",
+        "material": "Proyecto Final · Preguntas de Reflexión Final",
+        "notes": "🏁 Último día de clases: mié 2 dic",
+        "kind": "semester-end"
+      },
+      {
+        "week": "Finales",
+        "number": "",
+        "day": "Asíncrono",
+        "date": "3–9 dic",
+        "topic": "Entrega final del curso",
+        "material": "📝 Nota 5: Proyecto Final · entrega sugerida: lun 7 dic\nReflexión Final · entrega sugerida: mié 9 dic",
+        "notes": "Período institucional de exámenes finales",
+        "kind": "assessment"
       }
     ]
   }

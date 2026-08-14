@@ -37,3 +37,8 @@ Para ocultar el enlace "Todos los cursos", use:
   plan.html?curso=cco125&embed=1
   plan.html?curso=cmu350&embed=1
 También funciona mode=canvas.
+
+INF 105
+- Curso 100% asincrónico: se presenta por semanas, no por días de reunión.
+- Canvas producción: plan.html?curso=inf105&embed=1
+- Google Sheets: publique la pestaña INF 105 como CSV y pegue su URL en config.js.
