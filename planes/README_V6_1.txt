@@ -1,0 +1,1 @@
+V6.1: lectura de Google Sheets mediante Google Visualization API + scriptInjection, evitando el bloqueo CORS del fetch CSV entre GitHub Pages y docs.google.com. Reemplaza plan.html y app.js en GitHub. config.js conserva las URLs publicadas.
