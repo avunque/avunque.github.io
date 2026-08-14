@@ -1,7 +1,10 @@
-// Google Sheets publicados como CSV. Esta es la fuente de datos en vivo.
+// Fuente maestra: un único Google Sheet con una pestaña por curso.
 window.PLAN_CONFIG = {
-  cco460: { csvUrl: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRFX-N6RMDlxZtK5tIlBuWvf-QVd_unbVUpCJrP9FU_rrHitJ2vKgVHmWEY9zyO6Q/pub?gid=835834855&single=true&output=csv" },
-  cco125: { csvUrl: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRFX-N6RMDlxZtK5tIlBuWvf-QVd_unbVUpCJrP9FU_rrHitJ2vKgVHmWEY9zyO6Q/pub?gid=830076875&single=true&output=csv" },
-  cmu350: { csvUrl: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRFX-N6RMDlxZtK5tIlBuWvf-QVd_unbVUpCJrP9FU_rrHitJ2vKgVHmWEY9zyO6Q/pub?gid=899461337&single=true&output=csv" },
-  inf105: { csvUrl: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRFX-N6RMDlxZtK5tIlBuWvf-QVd_unbVUpCJrP9FU_rrHitJ2vKgVHmWEY9zyO6Q/pub?gid=429772911&single=true&output=csv" }
+  spreadsheetId: "1rh2uCLyu3m2YbVfL13JK0rlTZZw5vWCs",
+  courses: {
+    cco460: { gid: "835834855" },
+    cco125: { gid: "830076875" },
+    cmu350: { gid: "899461337" },
+    inf105: { gid: "429772911" }
+  }
 };
