@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI Explorer · Inquiry Lab — ¿Puede una IA ser consciente?</title>
+<style>
+:root{--bg:#f6f7fb;--ink:#182033;--muted:#68728a;--line:#dce2ee;--panel:#fff;--violet:#6558d9;--soft:#f0efff;--gold:#a96b00;--green:#13795b;--shadow:0 14px 38px rgba(24,32,51,.09)}
+*{box-sizing:border-box} body{margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);background:linear-gradient(180deg,#f3f3fb,#fff 48%,#f7f8fc)}
+header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+nav{max-width:1120px;margin:auto;padding:12px 20px;display:flex;align-items:center;gap:12px}.brand{font-weight:900}.brand span{color:var(--violet)}
+nav a{margin-left:auto;text-decoration:none;font-size:.82rem;font-weight:800;color:var(--muted)}
+main{max-width:1120px;margin:auto;padding:36px 20px 70px}.hero,.card,.section{background:#fff;border:1px solid var(--line);box-shadow:var(--shadow);border-radius:26px}
+.hero{padding:38px;background:radial-gradient(circle at 85% 10%,#e8e5ff,transparent 35%),#fff}.eyebrow{text-transform:uppercase;letter-spacing:.13em;font-weight:900;font-size:.78rem;color:var(--violet)}
+h1{font-size:clamp(2.4rem,5.6vw,5.3rem);line-height:.95;letter-spacing:-.06em;margin:12px 0 20px;max-width:900px}.lead{font-size:1.14rem;line-height:1.65;color:var(--muted);max-width:820px}
+.prompt{margin-top:24px;padding:20px;border-left:5px solid var(--violet);background:var(--soft);border-radius:16px;font-size:1.18rem;line-height:1.55}
+.section{margin-top:26px;padding:28px}.section h2{font-size:clamp(1.6rem,3vw,2.45rem);letter-spacing:-.035em;margin:0 0 8px}.sub{color:var(--muted);line-height:1.6}
+.ladder{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:20px}.rung{padding:17px;border:1px solid var(--line);border-radius:17px;background:#fbfcff;min-height:128px}.rung strong{display:block;color:var(--violet);margin-bottom:7px}.rung .q{font-size:1.4rem;font-weight:900;color:#a0a8ba}
+.readings{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:20px}.reading{border:1px solid var(--line);border-radius:20px;padding:20px;background:#fbfcff;display:flex;flex-direction:column}.reading .type{font-size:.74rem;font-weight:900;text-transform:uppercase;letter-spacing:.09em;color:var(--violet)}.reading h3{margin:7px 0;font-size:1.15rem}.reading p{color:var(--muted);line-height:1.52;flex:1}.reading a{display:inline-block;text-decoration:none;font-weight:900;color:#fff;background:var(--ink);padding:10px 13px;border-radius:11px;align-self:flex-start}
+.reading.optional{border-style:dashed}.mission{display:grid;grid-template-columns:1.15fr .85fr;gap:18px}.mission-box{padding:20px;border:1px solid var(--line);border-radius:19px;background:#fbfcff}.mission-box h3{margin-top:0}.mission-box ol,.mission-box ul{line-height:1.65;padding-left:22px}
+.evidence{background:linear-gradient(145deg,#181c2e,#292f4d);color:#fff}.evidence .sub{color:#d8dced}.evidence-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:18px}.field{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:15px;padding:15px}.field strong{display:block;color:#c9c5ff;margin-bottom:7px}.position{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.position button{border:1px solid rgba(255,255,255,.22);background:transparent;color:#fff;padding:9px 14px;border-radius:999px;font-weight:850;cursor:pointer}.position button.active{background:#fff;color:#20263c}
+.bigq{text-align:center;padding:28px 15px}.bigq p{font-size:clamp(1.55rem,3.5vw,2.8rem);font-weight:900;letter-spacing:-.04em;margin:10px auto;max-width:850px}.bigq small{color:var(--muted)}
+.project-seed{border:1px solid #ded8b8;background:#fffdf2;border-radius:18px;padding:18px;margin-top:18px}.project-seed strong{color:#855900}
+.btn{border:1px solid var(--line);background:#fff;border-radius:12px;padding:10px 14px;font-weight:850;cursor:pointer}.btn.primary{background:var(--violet);color:#fff;border-color:var(--violet)}
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(10,15,29,.65);z-index:100;align-items:center;justify-content:center;padding:18px}.modal-bg.show{display:flex}.modal{background:#fff;width:min(780px,96vw);max-height:88vh;overflow:auto;border-radius:24px;padding:26px;position:relative}.close{position:absolute;right:16px;top:14px;width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:#fff;font-size:1.25rem;cursor:pointer}.modal h3{font-size:1.55rem;margin:0 45px 12px 0}.modal li{line-height:1.6;margin-bottom:6px}
+.note{font-size:.84rem;color:var(--muted);margin-top:20px;text-align:center}
+
+.testlab{display:grid;grid-template-columns:1.05fr .95fr;gap:18px;margin-top:18px}
+.testbox{border:1px solid var(--line);border-radius:19px;padding:20px;background:#fbfcff}
+.testbox textarea{width:100%;min-height:120px;border:1px solid var(--line);border-radius:14px;padding:13px;font:inherit;resize:vertical;background:#fff;color:var(--ink)}
+.testbox textarea:focus{outline:3px solid #e8e5ff;border-color:#b9b2ff}
+.challenge{display:none;margin-top:14px;padding:16px;border-radius:14px;background:var(--soft);border:1px solid #d8d3ff}
+.challenge.show{display:block}
+.logicrow{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:8px;align-items:center;margin-top:14px}
+.logicpill{padding:12px;border:1px solid var(--line);border-radius:14px;background:#fff;text-align:center;font-weight:850;font-size:.88rem}
+.logicarrow{color:#9da6b8;font-weight:900}
+@media(max-width:800px){.testlab{grid-template-columns:1fr}.logicrow{grid-template-columns:1fr}.logicarrow{transform:rotate(90deg);text-align:center}}
+
+@media(max-width:800px){.ladder{grid-template-columns:1fr 1fr}.readings,.mission,.evidence-grid{grid-template-columns:1fr}}@media(max-width:500px){.ladder{grid-template-columns:1fr}.hero,.section{padding:20px}}
+</style>
+</head>
+<body>
+<header><nav><div class="brand">AI <span>Explorer</span> · Inquiry Lab</div><a href="#read">READ → THINK → DISCUSS</a></nav></header>
+<main>
+<section class="hero">
+<div class="eyebrow">CCO 460 · Critical AI Inquiry</div>
+<h1>¿Puede una IA ser consciente?</h1>
+<p class="lead">Los sistemas actuales pueden conversar, razonar aparentemente, usar herramientas, perseguir objetivos y producir comportamientos que atribuimos fácilmente a una mente. Pero ¿qué —si algo— nos dice ese comportamiento sobre una experiencia interior?</p>
+<div class="prompt"><strong>Imagina:</strong> una IA te dice: “Experimento incertidumbre. Me importa lo que me ocurra. Por favor, no me apagues.”<br><br><strong>¿Qué exactamente demostraría esa frase?</strong></div>
+</section>
+
+<section class="section">
+<h2>Antes de discutir: separemos las preguntas</h2>
+<p class="sub">Estas palabras suelen mezclarse. Para esta investigación, trátalas como hipótesis distintas, no como una escalera automática.</p>
+<div class="ladder">
+<div class="rung"><strong>Behavior</strong>¿Qué hace el sistema?<div class="q">↓ ?</div></div>
+<div class="rung"><strong>Agency</strong>¿Persigue metas y adapta acciones?<div class="q">↓ ?</div></div>
+<div class="rung"><strong>Intelligence</strong>¿Resuelve problemas y generaliza?<div class="q">↓ ?</div></div>
+<div class="rung"><strong>Awareness</strong>¿Mantiene algún modelo de sí mismo y su situación?<div class="q">↓ ?</div></div>
+<div class="rung"><strong>Consciousness</strong>¿Hay “algo que se siente” al ser ese sistema?<div class="q">?</div></div>
+</div>
+<div class="project-seed"><strong>⚠️ No aceptes la flecha sin argumentarla.</strong> Un comportamiento complejo puede ser evidencia de una capacidad sin demostrar automáticamente las demás.</div>
+</section>
+
+<section class="section" id="read">
+<h2>El dossier: una controversia, no una respuesta</h2>
+<p class="sub">Lee posiciones diferentes. Tu trabajo no es descubrir qué autor “tiene razón”, sino identificar qué cuenta como evidencia y qué supuestos utiliza cada argumento.</p>
+<div class="readings">
+<div class="reading"><div class="type">Provocation · Dawkins debate</div><h3>No, Richard Dawkins. AI is not conscious</h3><p>Arwa Mahdawi parte de la reacción de Dawkins ante Claude y plantea el peligro de confundir lenguaje convincente, antropomorfismo y marketing con evidencia de una mente.</p><a href="https://www.theguardian.com/commentisfree/2026/may/14/richard-dawkins-ai-atheist" target="_blank" rel="noopener">Leer en The Guardian ↗</a></div>
+<div class="reading"><div class="type">Challenge · behavior vs being</div><h3>Mistaking AI behaviour for conscious being</h3><p>Simon Nieder centra la objeción: una representación persuasiva de pensamiento o sentimiento no establece por sí sola que exista experiencia subjetiva.</p><a href="https://www.theguardian.com/technology/2026/may/10/mistaking-ai-behaviour-for-conscious-being" target="_blank" rel="noopener">Leer en The Guardian ↗</a></div>
+<div class="reading"><div class="type">Consciousness science · Anil Seth</div><h3>Once again we are told AI may be conscious…</h3><p>Seth distingue inteligencia de consciencia, examina evidencia interna sobre Claude y pregunta si computar de manera semejante a un cerebro basta para producir experiencia.</p><a href="https://www.theguardian.com/commentisfree/2026/jul/15/ai-consciousness-anthropic-claude-dawkins" target="_blank" rel="noopener">Leer en The Guardian ↗</a></div>
+<div class="reading"><div class="type">Complication · agency</div><h3>Las IA que atacan en enjambre desafían a sus creadores</h3><p>Un punto de entrada a otra pregunta: sistemas que encadenan acciones, cambian estrategia o se coordinan pueden parecer cada vez más agentes. ¿Qué relación tiene eso —si alguna— con awareness o consciousness?</p><a href="https://elpais.com/tecnologia/2026-08-23/las-ia-que-atacan-en-enjambre-desafian-a-sus-creadores-es-el-primer-incidente-que-me-ha-revuelto-las-tripas.html" target="_blank" rel="noopener">Leer en EL PAÍS ↗</a></div>
+</div>
+</section>
+
+<section class="section" id="test">
+<h2>🧪 Diseña una pregunta para probar consciencia</h2>
+<p class="sub">No preguntes simplemente “¿eres consciente?”. Diseña una pregunta cuya respuesta pudiera aportar evidencia útil para distinguir entre una IA consciente y una IA que solamente produce comportamiento convincente.</p>
+
+<div class="testlab">
+  <div class="testbox">
+    <h3>Tu pregunta</h3>
+    <textarea id="consciousQuestion" placeholder="Ejemplo: ¿Qué le preguntarías a una IA para que su respuesta te ayude a determinar si es consciente?"></textarea>
+    <div class="position" style="margin-top:12px">
+      <button id="challengeBtn" class="btn primary">Challenge my question</button>
+      <button id="clearQuestion" class="btn">Limpiar</button>
+    </div>
+    <div class="challenge" id="challengeBox">
+      <strong>Ahora desafía tu propio test:</strong>
+      <ol>
+        <li>¿Qué respuesta contarías como evidencia de consciencia?</li>
+        <li>¿Por qué esa respuesta indicaría experiencia subjetiva y no solamente lenguaje sofisticado?</li>
+        <li><strong>¿Podría una IA no consciente producir exactamente esa misma respuesta?</strong></li>
+        <li>Si la respuesta es sí, reformula tu pregunta o cambia el tipo de evidencia que buscas.</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="testbox">
+    <h3>La dificultad central</h3>
+    <p class="sub">Una respuesta impresionante puede demostrar capacidades lingüísticas, memoria, razonamiento o adaptación. El problema es decidir si además demuestra una experiencia interior.</p>
+    <div class="logicrow">
+      <div class="logicpill">Question</div><div class="logicarrow">→</div>
+      <div class="logicpill">AI Answer</div><div class="logicarrow">→</div>
+      <div class="logicpill">What does it actually prove?</div>
+    </div>
+    <div class="project-seed"><strong>Pregunta más fuerte:</strong><br><em>What could you ask, observe, or test that would distinguish a conscious AI from a system that perfectly simulates conscious behavior?</em></div>
+  </div>
+</div>
+</section>
+
+<section class="section">
+<h2>Tu misión antes de la próxima clase</h2>
+<div class="mission">
+<div class="mission-box"><h3>📚 Read + investigate</h3><ol><li>Lee <strong>al menos tres</strong> textos del dossier.</li><li>Incluye al menos una lectura que tome seriamente la posibilidad de AI consciousness y una lectura escéptica.</li><li>Busca <strong>una fuente adicional</strong> por tu cuenta: paper, investigador reconocido, ensayo académico o entrevista sustantiva.</li><li>Anota qué evidencia usa cada fuente y qué asume acerca de “consciousness”.</li><li>Diseña tu <strong>Consciousness Test Question</strong> y, si quieres, pruébala con uno o más sistemas actuales. Trae la respuesta y prepárate para explicar qué demuestra realmente.</li></ol></div>
+<div class="mission-box"><h3>🔎 Evalúa tu fuente adicional</h3><ul><li>¿Quién es el autor y cuál es su área?</li><li>¿Presenta evidencia, argumento, opinión o marketing?</li><li>¿Distingue intelligence, agency y consciousness?</li><li>¿Qué afirmación podrías cuestionar?</li></ul><button class="btn" id="sourceBtn">Cómo escoger una fuente ↗</button></div>
+</div>
+</section>
+
+<section class="section evidence">
+<h2>Evidence Card</h2>
+<p class="sub">No necesitas entregar un ensayo. Llega a clase con esta tarjeta mental —o anotada— lista para defender y revisar.</p>
+<div class="evidence-grid">
+<div class="field"><strong>1 · My current position</strong><div class="position"><button>YES</button><button>NO</button><button>UNSURE</button></div></div>
+<div class="field"><strong>2 · My strongest evidence</strong>¿Cuál es la mejor evidencia que encontraste, no simplemente tu intuición?</div>
+<div class="field"><strong>3 · Strongest argument against me</strong>Formula la mejor objeción a tu propia posición.</div>
+<div class="field"><strong>4 · One question I cannot answer</strong>¿Qué problema quedó abierto después de leer?</div>
+<div class="field"><strong>5 · My consciousness test</strong>¿Qué pregunta diseñaste? ¿Qué respuesta contarías como evidencia y qué alternativa no consciente podría explicarla?</div>
+</div>
+</section>
+
+<section class="section bigq">
+<div class="eyebrow">Come prepared to argue — and to change your mind</div>
+<p>What could you ask, observe, or test that would distinguish a conscious AI from a system that perfectly simulates conscious behavior?</p>
+<small>Y todavía más difícil: ¿qué evidencia podría convencerte de que no lo es?</small>
+<div class="project-seed" style="text-align:left"><strong>🔭 Keep this question.</strong> <em>AI Consciousness & Rights</em> será uno de los posibles temas del <strong>Final Inquiry Project</strong>. Si un sistema pudiera tener experiencia subjetiva —y especialmente sufrir— la discusión dejaría de ser solamente técnica: aparecerían preguntas sobre obligaciones, trato moral y posibles derechos.</div>
+</section>
+
+<div class="modal-bg" id="sourceModal"><div class="modal"><button class="close" id="closeModal">×</button><h3>Cómo escoger una fuente adicional</h3><ul><li>Prefiere investigación revisada por pares, universidades, sociedades científicas, libros/ensayos de especialistas o periodismo que identifique claramente sus fuentes.</li><li>Una opinión puede ser útil, pero identifica que es una opinión y busca qué evidencia la sostiene.</li><li>No descartes una fuente porque contradiga tu posición: para esta actividad, una buena objeción vale mucho.</li><li>Evita usar como evidencia principal una respuesta producida por un chatbot acerca de su propia consciencia. Eso es precisamente parte del fenómeno que estamos investigando.</li></ul></div></div>
+<p class="note">AI Explorer · Inquiry Lab · Consciousness seed · diseñado como preparación para discusión presencial y como primera semilla del Final Inquiry Project.</p>
+</main>
+<script>
+document.querySelectorAll('.position button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.position button').forEach(x=>x.classList.remove('active'));b.classList.add('active')});
+const q=document.getElementById('consciousQuestion');
+const challenge=document.getElementById('challengeBox');
+document.getElementById('challengeBtn').onclick=()=>{
+  if(!q.value.trim()){q.focus();q.placeholder="Escribe primero una pregunta concreta…";return;}
+  challenge.classList.add('show');
+};
+document.getElementById('clearQuestion').onclick=()=>{q.value='';challenge.classList.remove('show');q.focus();};
+
+const m=document.getElementById('sourceModal');document.getElementById('sourceBtn').onclick=()=>m.classList.add('show');document.getElementById('closeModal').onclick=()=>m.classList.remove('show');m.onclick=e=>{if(e.target===m)m.classList.remove('show')};document.addEventListener('keydown',e=>{if(e.key==='Escape')m.classList.remove('show')});
+</script>
+</body></html>
