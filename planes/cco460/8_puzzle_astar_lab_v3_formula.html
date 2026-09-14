@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>8-Puzzle Search Laboratory — From Branch & Bound to A*</title>
+<style>
+:root{
+  --bg:#f6f8fb; --card:#fff; --ink:#1f2937; --muted:#667085; --line:#d9e2ec;
+  --blue:#225f96; --blue2:#eaf3fb; --green:#1f7a4d; --green2:#eaf7f0;
+  --orange:#b85c18; --orange2:#fff2e7; --purple:#6550a5; --purple2:#f0ecfb;
+  --red:#b42318; --red2:#fdecea; --tile:#ffffff; --blank:#e7ebef;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,Arial,Helvetica,sans-serif;line-height:1.45}
+.app{max-width:1200px;margin:0 auto;padding:20px}
+.hero{background:linear-gradient(135deg,#174b78,#2b6da8);color:#fff;border-radius:16px;padding:22px 24px;margin-bottom:16px}
+.hero h1{margin:0 0 6px;font-size:clamp(1.65rem,3vw,2.4rem)}
+.hero p{margin:0;opacity:.95}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
+.tab{border:1px solid var(--line);background:#fff;border-radius:999px;padding:9px 14px;font-weight:700;cursor:pointer}
+.tab.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+.layout{display:grid;grid-template-columns:330px 1fr;gap:16px}
+@media(max-width:900px){.layout{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px}
+.card h2,.card h3{margin-top:0}
+.small{font-size:.9rem;color:var(--muted)}
+.puzzles{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.board{display:grid;grid-template-columns:repeat(3,46px);gap:4px;width:max-content;margin:8px 0}
+.tile{width:46px;height:46px;display:flex;align-items:center;justify-content:center;border:1px solid #aab4be;border-radius:7px;background:var(--tile);font-weight:800;font-size:1.05rem}
+.tile.blank{background:var(--blank);color:transparent}
+.controls{display:flex;gap:8px;flex-wrap:wrap}
+button,select,input{font:inherit}
+button{border:1px solid var(--line);background:#fff;border-radius:9px;padding:9px 12px;cursor:pointer;font-weight:700}
+button.primary{background:var(--blue);color:#fff;border-color:var(--blue)}
+button:disabled{opacity:.45;cursor:not-allowed}
+.status{padding:10px 12px;border-radius:9px;background:var(--blue2);border-left:4px solid var(--blue);margin-top:10px}
+.status.good{background:var(--green2);border-left-color:var(--green)}
+.status.warn{background:var(--orange2);border-left-color:var(--orange)}
+.metric-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.metric{border:1px solid var(--line);border-radius:9px;padding:9px}
+.metric strong{display:block;font-size:1.25rem}
+.rule{font-size:1.05rem;font-weight:800;padding:10px 12px;border-radius:9px;background:#f7f8fa}
+.frontier{max-height:260px;overflow:auto;border:1px solid var(--line);border-radius:9px}
+.frontier table{width:100%;border-collapse:collapse;font-size:.88rem}
+.frontier th,.frontier td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:left}
+.frontier th{position:sticky;top:0;background:#f7f9fb}
+.tree-wrap{overflow:auto;border:1px solid var(--line);border-radius:12px;background:#fcfdff}
+#treeSvg{display:block;min-width:100%;height:560px}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:.85rem;color:var(--muted);margin:8px 0}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px}
+.callout{border-radius:10px;padding:12px 14px;margin-top:10px}
+.callout.blue{background:var(--blue2);border-left:4px solid var(--blue)}
+.callout.orange{background:var(--orange2);border-left:4px solid var(--orange)}
+.callout.green{background:var(--green2);border-left:4px solid var(--green)}
+.callout.purple{background:var(--purple2);border-left:4px solid var(--purple)}
+.heuristic-grid{display:grid;grid-template-columns:1fr 90px;gap:8px;align-items:center}
+.heuristic-grid input{width:100%;padding:7px;border:1px solid var(--line);border-radius:8px}
+details summary{cursor:pointer;font-weight:800}
+.code{background:#f3f4f6;border:1px solid var(--line);border-radius:9px;padding:12px;overflow:auto;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.87rem;white-space:pre}
+.inline-k{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:#f3f4f6;padding:1px 5px;border-radius:5px}
+.badge{display:inline-block;padding:3px 7px;border-radius:999px;font-size:.78rem;font-weight:800}
+.badge.open{background:var(--blue2);color:var(--blue)}
+.badge.closed{background:#eceff3;color:#45505c}
+.badge.dup{background:var(--orange2);color:var(--orange)}
+.mode-bnb{border-top:4px solid var(--blue)}
+.mode-heur{border-top:4px solid var(--green)}
+.mode-dp{border-top:4px solid var(--orange)}
+.mode-astar{border-top:4px solid var(--purple)}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="hero">
+    <h1>8-Puzzle Search Laboratory</h1>
+    <p>Build A* step by step: Branch & Bound → add a heuristic → remember best paths → full A*</p>
+  </div>
+
+  <div class="tabs" id="tabs">
+    <button class="tab active" data-mode="bnb">1. Branch &amp; Bound</button>
+    <button class="tab" data-mode="heur">2. + Heuristic</button>
+    <button class="tab" data-mode="dp">3. + Dynamic Programming</button>
+    <button class="tab" data-mode="astar">4. A*</button>
+  </div>
+
+  <div class="layout">
+    <aside>
+      <div class="card">
+        <h3>Lesson puzzle</h3>
+        <div class="puzzles">
+          <div>
+            <strong>Start</strong>
+            <div class="board" id="startBoard"></div>
+          </div>
+          <div>
+            <strong>Goal</strong>
+            <div class="board" id="goalBoard"></div>
+          </div>
+        </div>
+        <div class="small">Blank tile = empty square. Engineered optimal path: <strong>L → U → R → R → D → D</strong>.</div>
+      </div>
+
+      <div class="card" id="modeCard">
+        <h3 id="modeTitle">Branch &amp; Bound</h3>
+        <div class="rule" id="modeRule">Priority = g(n)</div>
+        <div class="callout blue" id="modeExplain"></div>
+      </div>
+
+      <div class="card">
+        <h3>Run controls</h3>
+        <div class="controls">
+          <button class="primary" id="stepBtn">Step</button>
+          <button id="autoBtn">Auto</button>
+          <button id="pauseBtn" disabled>Pause</button>
+          <button id="resetBtn">Reset</button>
+        </div>
+        <div class="status" id="statusBox">Ready.</div>
+      </div>
+
+      <div class="card">
+        <h3>Search metrics</h3>
+        <div class="metric-grid">
+          <div class="metric"><span class="small">Expanded</span><strong id="mExpanded">0</strong></div>
+          <div class="metric"><span class="small">Generated</span><strong id="mGenerated">1</strong></div>
+          <div class="metric"><span class="small">Frontier</span><strong id="mFrontier">1</strong></div>
+          <div class="metric"><span class="small">Duplicates</span><strong id="mDup">0</strong></div>
+        </div>
+      </div>
+
+      <div class="card" id="heurCard">
+        <h3>Heuristic lab</h3>
+
+        <label for="heurSelect"><strong>Choose a heuristic</strong></label>
+        <select id="heurSelect" style="width:100%;margin-top:7px;padding:8px;border:1px solid var(--line);border-radius:8px">
+          <option value="manhattan">Manhattan distance</option>
+          <option value="misplaced">Misplaced tiles</option>
+          <option value="blank">Blank distance</option>
+          <option value="formula">Student formula</option>
+          <option value="custom">Custom weighted combination</option>
+        </select>
+
+        <div id="formulaBox" style="display:none;margin-top:12px">
+          <div class="small">
+            Build <strong>h</strong> using:
+            <code>M</code> = Manhattan,
+            <code>P</code> = misplaced tiles,
+            <code>B</code> = blank distance.
+          </div>
+
+          <label for="formulaInput" style="display:block;margin-top:8px"><strong>h =</strong></label>
+          <input id="formulaInput" type="text" value="M" placeholder="Example: M + 2*P"
+                 style="width:100%;padding:8px;border:1px solid var(--line);border-radius:8px">
+
+          <div class="controls" style="margin-top:9px">
+            <button id="applyFormulaBtn">Apply formula</button>
+          </div>
+
+          <div class="small" style="margin-top:7px">
+            Allowed: numbers, <code>M</code>, <code>P</code>, <code>B</code>,
+            <code>+ - * /</code>, and parentheses.
+          </div>
+
+          <div id="formulaStatus" class="small" style="margin-top:7px"></div>
+        </div>
+
+        <div id="customHeurBox" style="display:none;margin-top:12px">
+          <div class="small">Advanced: combine heuristic components with your own weights.</div>
+          <div class="heuristic-grid" style="margin-top:10px">
+            <label>Manhattan</label><input id="wMan" type="number" value="1" step="0.5">
+            <label>Misplaced</label><input id="wMis" type="number" value="0" step="0.5">
+            <label>Blank distance</label><input id="wBlank" type="number" value="0" step="0.5">
+          </div>
+          <div class="controls" style="margin-top:10px">
+            <button id="applyHeurBtn">Apply custom heuristic</button>
+          </div>
+        </div>
+
+        <div class="small" id="heurNote" style="margin-top:10px"></div>
+      </div>
+    </aside>
+
+    <main>
+      <div class="card">
+        <h2>Search tree</h2>
+        <div class="legend">
+          <span><span class="dot" style="background:#225f96"></span>frontier</span>
+          <span><span class="dot" style="background:#1f7a4d"></span>expanded now</span>
+          <span><span class="dot" style="background:#6550a5"></span>goal</span>
+          <span><span class="dot" style="background:#b85c18"></span>duplicate / discarded</span>
+        </div>
+        <div class="tree-wrap"><svg id="treeSvg" xmlns="http://www.w3.org/2000/svg"></svg></div>
+        <div class="callout purple" id="whyBox"><strong>Why this node?</strong><br>Press <em>Step</em> to see the first decision.</div>
+      </div>
+
+      <div class="card">
+        <h2>Frontier / OPEN list</h2>
+        <div class="frontier">
+          <table>
+            <thead><tr><th>#</th><th>Move</th><th>g</th><th>h</th><th>f</th><th>Status</th></tr></thead>
+            <tbody id="frontierBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Dynamic-programming memory</h2>
+        <div id="dpPanel" class="callout orange">
+          In the first two stages, repeated states are not globally remembered. In the DP and A* stages, the best known <span class="inline-k">g</span> for each board is stored.
+        </div>
+        <div class="small" id="memoryStats" style="margin-top:8px"></div>
+      </div>
+
+      <div class="card">
+        <details>
+          <summary>Show the algorithmic skeleton</summary>
+          <div class="code" id="codeBox"></div>
+        </details>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script>
+(() => {
+  const START = [4,1,2,5,0,3,7,8,6];
+  const GOAL  = [1,2,3,4,5,6,7,8,0];
+  const MOVES = [
+    {name:"R", dr:0, dc:1},
+    {name:"U", dr:-1, dc:0},
+    {name:"L", dr:0, dc:-1},
+    {name:"D", dr:1, dc:0},
+  ];
+  const MODE_INFO = {
+    bnb:{
+      title:"Branch & Bound",
+      rule:"Priority = g(n)",
+      explain:"Expand the state with the smallest cost so far. It knows what we have spent, but nothing about where the goal is.",
+      cls:"mode-bnb"
+    },
+    heur:{
+      title:"Branch & Bound + heuristic",
+      rule:"Priority = g(n) + h(n)",
+      explain:"Now states get an estimate of the remaining cost. We still do tree search: repeated states are not globally remembered.",
+      cls:"mode-heur"
+    },
+    dp:{
+      title:"+ Dynamic programming",
+      rule:"Priority = g(n) + h(n), remember best g",
+      explain:"If the same board is reached again, keep only the best known path cost. Inferior duplicates are discarded.",
+      cls:"mode-dp"
+    },
+    astar:{
+      title:"A* search",
+      rule:"f(n) = g(n) + h(n) + best-path memory",
+      explain:"Everything together: cost so far, estimated cost remaining, and dynamic-programming memory of the best route to each state.",
+      cls:"mode-astar"
+    }
+  };
+
+  const el = id => document.getElementById(id);
+  let mode="bnb", frontier=[], allNodes=[], bestG=new Map(), expandedKeys=new Set();
+  let generated=0, expanded=0, duplicates=0, current=null, previousExpanded=null, timer=null;
+  let weights={man:1,mis:0,blank:0};
+  let formulaText="M";
+
+  function key(b){ return b.join(","); }
+  function goalPos(v){ const i=GOAL.indexOf(v); return [Math.floor(i/3), i%3]; }
+  function manhattan(b){
+    let s=0;
+    for(let i=0;i<9;i++){ const v=b[i]; if(v===0) continue;
+      const [gr,gc]=goalPos(v), r=Math.floor(i/3), c=i%3; s+=Math.abs(r-gr)+Math.abs(c-gc);
+    }
+    return s;
+  }
+  function misplaced(b){ let s=0; for(let i=0;i<9;i++) if(b[i]!==0 && b[i]!==GOAL[i]) s++; return s; }
+  function blankDistance(b){
+    const i=b.indexOf(0), gi=GOAL.indexOf(0);
+    return Math.abs(Math.floor(i/3)-Math.floor(gi/3))+Math.abs((i%3)-(gi%3));
+  }
+  function evalFormula(expr, values){
+    // Restricted arithmetic parser: only M, P, B, numbers, + - * /, parentheses.
+    // No eval(), no JavaScript identifiers/functions.
+    const clean = expr.replace(/\s+/g,"").toUpperCase();
+    if(!clean) throw new Error("Formula is empty.");
+    if(!/^[0-9MPB+\-*/().]+$/.test(clean)) throw new Error("Use only M, P, B, numbers, + - * / and parentheses.");
+
+    const tokens = clean.match(/(?:\d+(?:\.\d+)?|[MPB]|[()+\-*/])/g);
+    if(!tokens || tokens.join("") !== clean) throw new Error("Invalid formula.");
+
+    let i=0;
+    function peek(){ return tokens[i]; }
+    function take(){ return tokens[i++]; }
+
+    function parseExpression(){
+      let v=parseTerm();
+      while(peek()==="+" || peek()==="-"){
+        const op=take(), rhs=parseTerm();
+        v = op==="+" ? v+rhs : v-rhs;
+      }
+      return v;
+    }
+    function parseTerm(){
+      let v=parseFactor();
+      while(peek()==="*" || peek()==="/"){
+        const op=take(), rhs=parseFactor();
+        if(op==="/" && rhs===0) throw new Error("Division by zero.");
+        v = op==="*" ? v*rhs : v/rhs;
+      }
+      return v;
+    }
+    function parseFactor(){
+      const t=peek();
+      if(t==="+" || t==="-"){
+        take();
+        const v=parseFactor();
+        return t==="-" ? -v : v;
+      }
+      if(t==="("){
+        take();
+        const v=parseExpression();
+        if(take()!==")") throw new Error("Missing closing parenthesis.");
+        return v;
+      }
+      const tok=take();
+      if(tok===undefined) throw new Error("Incomplete formula.");
+      if(tok==="M") return values.M;
+      if(tok==="P") return values.P;
+      if(tok==="B") return values.B;
+      const num=Number(tok);
+      if(!Number.isFinite(num)) throw new Error("Invalid number.");
+      return num;
+    }
+
+    const result=parseExpression();
+    if(i!==tokens.length) throw new Error("Unexpected token.");
+    if(!Number.isFinite(result)) throw new Error("Formula did not produce a finite number.");
+    return result;
+  }
+
+  function heuristic(b){
+    const choice = el("heurSelect") ? el("heurSelect").value : "manhattan";
+    const vals = {M:manhattan(b), P:misplaced(b), B:blankDistance(b)};
+    if(choice==="formula") return evalFormula(formulaText, vals);
+    return weights.man*vals.M + weights.mis*vals.P + weights.blank*vals.B;
+  }
+
+  function successors(board){
+    const z=board.indexOf(0), r=Math.floor(z/3), c=z%3, out=[];
+    for(const mv of MOVES){
+      const nr=r+mv.dr,nc=c+mv.dc;
+      if(nr<0||nr>2||nc<0||nc>2) continue;
+      const ni=nr*3+nc, nb=board.slice();
+      nb[z]=nb[ni]; nb[ni]=0;
+      out.push({board:nb,move:mv.name});
+    }
+    return out;
+  }
+
+  function makeNode(board,g,parent,move){
+    const h=heuristic(board);
+    return {
+      id: allNodes.length, board, g, h, f:g+h, parent, move,
+      depth: parent ? parent.depth+1 : 0,
+      status:"open", discarded:false, duplicate:false,
+      pathKeys: parent ? new Set(parent.pathKeys) : new Set()
+    };
+  }
+
+  function init(){
+    stopAuto();
+    frontier=[]; allNodes=[]; bestG=new Map(); expandedKeys=new Set();
+    generated=1; expanded=0; duplicates=0; current=null; previousExpanded=null;
+    const root=makeNode(START.slice(),0,null,"START");
+    root.pathKeys.add(key(root.board));
+    allNodes.push(root); frontier.push(root);
+    if(mode==="dp"||mode==="astar") bestG.set(key(root.board),0);
+    renderAll();
+    el("statusBox").className="status";
+    el("statusBox").textContent="Ready. Press Step.";
+    el("whyBox").innerHTML="<strong>Why this node?</strong><br>Press <em>Step</em> to see the first decision.";
+  }
+
+  function priority(n){
+    if(mode==="bnb") return n.g;
+    return n.f;
+  }
+  function sortFrontier(){
+    frontier.sort((a,b)=>priority(a)-priority(b) || a.h-b.h || a.id-b.id);
+  }
+
+  function step(){
+    if(frontier.length===0){
+      el("statusBox").className="status warn";
+      el("statusBox").textContent="Frontier empty: no solution found.";
+      stopAuto(); return;
+    }
+    sortFrontier();
+    const node=frontier.shift();
+    previousExpanded=current;
+    current=node;
+    node.status="current";
+    expanded++;
+
+    const isJump = previousExpanded && node.parent !== previousExpanded;
+    const pLabel = mode==="bnb" ? `g=${node.g}` : `f=${fmt(node.f)} (g=${node.g}, h=${fmt(node.h)})`;
+    el("whyBox").innerHTML = `<strong>Why this node?</strong><br>${MODE_INFO[mode].title} selected it because it has the smallest current priority: <strong>${pLabel}</strong>.${isJump ? "<br><br><strong>Branch jump:</strong> the algorithm returned to a different state already waiting in the frontier." : ""}`;
+
+    if(key(node.board)===key(GOAL)){
+      node.status="goal";
+      el("statusBox").className="status good";
+      el("statusBox").textContent=`Goal found at cost ${node.g}.`;
+      renderAll(); stopAuto(); return;
+    }
+
+    node.status="closed";
+    expandedKeys.add(key(node.board));
+
+    for(const s of successors(node.board)){
+      const k=key(s.board);
+      if(node.pathKeys.has(k)) continue; // avoid trivial cycles in tree-search modes
+
+      const child=makeNode(s.board,node.g+1,node,s.move);
+      child.pathKeys = new Set(node.pathKeys); child.pathKeys.add(k);
+
+      if(mode==="dp"||mode==="astar"){
+        const old=bestG.get(k);
+        if(old!==undefined && old<=child.g){
+          child.discarded=true; child.duplicate=true; child.status="discarded";
+          duplicates++; allNodes.push(child); generated++;
+          continue;
+        }
+        if(old!==undefined && child.g<old) duplicates++;
+        bestG.set(k,child.g);
+      }
+
+      allNodes.push(child); frontier.push(child); generated++;
+      if(allNodes.length>180){
+        el("statusBox").className="status warn";
+        el("statusBox").textContent="Teaching limit reached (180 generated states). Reset or use a more informed stage.";
+        stopAuto(); break;
+      }
+    }
+
+    renderAll();
+  }
+
+  function auto(){
+    if(timer) return;
+    el("autoBtn").disabled=true; el("pauseBtn").disabled=false;
+    timer=setInterval(()=>{ step(); if(!timer) return; },500);
+  }
+  function stopAuto(){
+    if(timer){ clearInterval(timer); timer=null; }
+    el("autoBtn").disabled=false; el("pauseBtn").disabled=true;
+  }
+
+  function renderBoard(container, board){
+    container.innerHTML="";
+    board.forEach(v=>{
+      const d=document.createElement("div");
+      d.className="tile"+(v===0?" blank":""); d.textContent=v===0?"0":String(v);
+      container.appendChild(d);
+    });
+  }
+
+  function fmt(v){ return Number.isInteger(v)?String(v):v.toFixed(1); }
+
+  function renderFrontier(){
+    sortFrontier();
+    el("frontierBody").innerHTML="";
+    frontier.slice(0,40).forEach((n,i)=>{
+      const tr=document.createElement("tr");
+      tr.innerHTML=`<td>${i+1}</td><td>${n.move}</td><td>${n.g}</td><td>${fmt(n.h)}</td><td>${fmt(n.f)}</td><td><span class="badge open">OPEN</span></td>`;
+      el("frontierBody").appendChild(tr);
+    });
+  }
+
+  function renderTree(){
+    const svg=el("treeSvg");
+    const visible=allNodes.slice(-80); // bounded visual window
+    const byDepth=new Map();
+    visible.forEach(n=>{
+      if(!byDepth.has(n.depth)) byDepth.set(n.depth,[]);
+      byDepth.get(n.depth).push(n);
+    });
+    const maxCount=Math.max(1,...[...byDepth.values()].map(a=>a.length));
+    const W=Math.max(900,maxCount*110+80), H=Math.max(560,(Math.max(0,...byDepth.keys())+1)*105+80);
+    svg.setAttribute("viewBox",`0 0 ${W} ${H}`); svg.style.width=W+"px"; svg.style.height=H+"px";
+    svg.innerHTML="";
+    const pos=new Map();
+
+    [...byDepth.entries()].sort((a,b)=>a[0]-b[0]).forEach(([depth,nodes])=>{
+      const gap=W/(nodes.length+1);
+      nodes.forEach((n,i)=>pos.set(n.id,{x:gap*(i+1),y:55+depth*100}));
+    });
+
+    for(const n of visible){
+      if(!n.parent || !pos.has(n.parent.id)) continue;
+      const a=pos.get(n.parent.id), b=pos.get(n.id);
+      const line=document.createElementNS("http://www.w3.org/2000/svg","line");
+      line.setAttribute("x1",a.x); line.setAttribute("y1",a.y+28); line.setAttribute("x2",b.x); line.setAttribute("y2",b.y-28);
+      line.setAttribute("stroke","#aab4be"); line.setAttribute("stroke-width","1.4"); svg.appendChild(line);
+    }
+
+    // show branch jump from previous expanded to current
+    if(previousExpanded && current && current.parent!==previousExpanded && pos.has(previousExpanded.id) && pos.has(current.id)){
+      const a=pos.get(previousExpanded.id), b=pos.get(current.id);
+      const path=document.createElementNS("http://www.w3.org/2000/svg","path");
+      const midY=Math.min(a.y,b.y)-35;
+      path.setAttribute("d",`M ${a.x} ${a.y} C ${a.x} ${midY}, ${b.x} ${midY}, ${b.x} ${b.y}`);
+      path.setAttribute("fill","none"); path.setAttribute("stroke","#b85c18"); path.setAttribute("stroke-width","2.5");
+      path.setAttribute("stroke-dasharray","7 5"); svg.appendChild(path);
+      const t=document.createElementNS("http://www.w3.org/2000/svg","text");
+      t.setAttribute("x",(a.x+b.x)/2); t.setAttribute("y",midY-4); t.setAttribute("text-anchor","middle");
+      t.setAttribute("font-size","11"); t.setAttribute("fill","#b85c18"); t.textContent="jump to frontier"; svg.appendChild(t);
+    }
+
+    for(const n of visible){
+      const p=pos.get(n.id); if(!p) continue;
+      const g=document.createElementNS("http://www.w3.org/2000/svg","g");
+      let stroke="#225f96", fill="#fff";
+      if(n.status==="closed") stroke="#7b8794";
+      if(n.status==="current") {stroke="#1f7a4d"; fill="#eaf7f0";}
+      if(n.status==="goal") {stroke="#6550a5"; fill="#f0ecfb";}
+      if(n.discarded){stroke="#b85c18"; fill="#fff2e7";}
+      const rect=document.createElementNS("http://www.w3.org/2000/svg","rect");
+      rect.setAttribute("x",p.x-31); rect.setAttribute("y",p.y-31); rect.setAttribute("width",62); rect.setAttribute("height",62);
+      rect.setAttribute("rx","7"); rect.setAttribute("fill",fill); rect.setAttribute("stroke",stroke); rect.setAttribute("stroke-width","2"); g.appendChild(rect);
+
+      for(let i=0;i<9;i++){
+        const v=n.board[i], rr=Math.floor(i/3), cc=i%3;
+        const cell=document.createElementNS("http://www.w3.org/2000/svg","rect");
+        cell.setAttribute("x",p.x-27+cc*18); cell.setAttribute("y",p.y-27+rr*18); cell.setAttribute("width",18); cell.setAttribute("height",18);
+        cell.setAttribute("fill",v===0?"#e7ebef":"#fff"); cell.setAttribute("stroke","#c2c9d1"); cell.setAttribute("stroke-width",".7"); g.appendChild(cell);
+        if(v!==0){
+          const tx=document.createElementNS("http://www.w3.org/2000/svg","text");
+          tx.setAttribute("x",p.x-18+cc*18); tx.setAttribute("y",p.y-14+rr*18);
+          tx.setAttribute("text-anchor","middle"); tx.setAttribute("font-size","10"); tx.setAttribute("font-weight","700"); tx.textContent=String(v); g.appendChild(tx);
+        }
+      }
+      const label=document.createElementNS("http://www.w3.org/2000/svg","text");
+      label.setAttribute("x",p.x); label.setAttribute("y",p.y+43); label.setAttribute("text-anchor","middle"); label.setAttribute("font-size","11");
+      if(mode==="bnb") label.textContent=`${n.move}  g=${n.g}`;
+      else label.textContent=`${n.move}  g${n.g} h${fmt(n.h)} f${fmt(n.f)}`;
+      g.appendChild(label);
+      if(n.discarded){
+        const d=document.createElementNS("http://www.w3.org/2000/svg","text");
+        d.setAttribute("x",p.x); d.setAttribute("y",p.y+56); d.setAttribute("text-anchor","middle"); d.setAttribute("font-size","10");
+        d.setAttribute("fill","#b85c18"); d.textContent="discard duplicate"; g.appendChild(d);
+      }
+      svg.appendChild(g);
+    }
+  }
+
+  function renderMode(){
+    const info=MODE_INFO[mode];
+    el("modeTitle").textContent=info.title; el("modeRule").textContent=info.rule; el("modeExplain").textContent=info.explain;
+    el("modeCard").className="card "+info.cls;
+    const showHeur=mode!=="bnb";
+    el("heurCard").style.display=showHeur?"block":"none";
+    const hChoice = el("heurSelect") ? el("heurSelect").value : "manhattan";
+    const hNames = {
+      manhattan:"Manhattan distance",
+      misplaced:"Misplaced tiles",
+      blank:"Blank distance",
+      formula:"Student formula",
+      custom:"Custom weighted combination"
+    };
+    el("heurNote").textContent =
+      "Current heuristic: " + hNames[hChoice] +
+      (hChoice==="formula" ? " (h = " + formulaText + ")" : "") + ". " +
+      (mode==="astar"
+        ? "Student formulas and custom weights may be inadmissible, so A* optimality may no longer be guaranteed."
+        : "The heuristic guides which states look more promising.");
+    el("codeBox").textContent = codeForMode(mode);
+  }
+
+  function codeForMode(m){
+    if(m==="bnb") return `frontier = [start]\n\nwhile frontier:\n    state = remove_lowest_g(frontier)\n\n    if goal(state):\n        return path(state)\n\n    frontier.extend(state.next())`;
+    if(m==="heur") return `frontier = [start]\n\nwhile frontier:\n    state = remove_lowest_f(frontier)   # f = g + h\n\n    if goal(state):\n        return path(state)\n\n    frontier.extend(state.next())\n\n# No global duplicate memory yet.`;
+    if(m==="dp") return `best_g[start] = 0\nfrontier = [start]\n\nwhile frontier:\n    state = remove_lowest_f(frontier)\n\n    for child in state.next():\n        new_g = state.g + 1\n\n        if child not in best_g or new_g < best_g[child]:\n            best_g[child] = new_g\n            frontier.add(child)`;
+    return `best_g[start] = 0\nOPEN = [start]\n\nwhile OPEN:\n    state = remove_lowest_f(OPEN)       # f = g + h\n\n    if goal(state):\n        return path(state)\n\n    for child in state.next():\n        new_g = state.g + 1\n\n        if child not in best_g or new_g < best_g[child]:\n            best_g[child] = new_g\n            child.f = new_g + h(child)\n            OPEN.add(child)`;
+  }
+
+  function renderAll(){
+    renderBoard(el("startBoard"),START); renderBoard(el("goalBoard"),GOAL);
+    renderMode(); renderFrontier(); renderTree();
+    el("mExpanded").textContent=expanded; el("mGenerated").textContent=generated;
+    el("mFrontier").textContent=frontier.length; el("mDup").textContent=duplicates;
+    el("memoryStats").textContent=(mode==="dp"||mode==="astar")
+      ? `Stored best costs for ${bestG.size} distinct board states.`
+      : "Global best-path memory is OFF in this stage.";
+  }
+
+  document.querySelectorAll(".tab").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+      document.querySelectorAll(".tab").forEach(b=>b.classList.remove("active"));
+      btn.classList.add("active"); mode=btn.dataset.mode; init();
+    });
+  });
+  el("stepBtn").addEventListener("click",step);
+  el("autoBtn").addEventListener("click",auto);
+  el("pauseBtn").addEventListener("click",stopAuto);
+  el("resetBtn").addEventListener("click",init);
+  el("heurSelect").addEventListener("change",()=>{
+    const choice=el("heurSelect").value;
+    el("customHeurBox").style.display = choice==="custom" ? "block" : "none";
+    el("formulaBox").style.display = choice==="formula" ? "block" : "none";
+
+    if(choice==="manhattan") weights={man:1,mis:0,blank:0};
+    if(choice==="misplaced") weights={man:0,mis:1,blank:0};
+    if(choice==="blank") weights={man:0,mis:0,blank:1};
+
+    if(choice!=="custom" && choice!=="formula") init();
+  });
+
+  el("applyFormulaBtn").addEventListener("click",()=>{
+    const text=el("formulaInput").value.trim();
+    try{
+      // Validate immediately on the lesson start board.
+      evalFormula(text,{M:manhattan(START),P:misplaced(START),B:blankDistance(START)});
+      formulaText=text;
+      el("formulaStatus").textContent="Formula accepted: h = " + formulaText;
+      el("formulaStatus").style.color="#1f7a4d";
+      init();
+    }catch(err){
+      el("formulaStatus").textContent="Formula error: " + err.message;
+      el("formulaStatus").style.color="#b42318";
+    }
+  });
+
+  el("applyHeurBtn").addEventListener("click",()=>{
+    const man=parseFloat(el("wMan").value)||0;
+    const mis=parseFloat(el("wMis").value)||0;
+    const blank=parseFloat(el("wBlank").value)||0;
+    weights={man,mis,blank};
+    init();
+  });
+
+  init();
+})();
+</script>
+</body>
+</html>
