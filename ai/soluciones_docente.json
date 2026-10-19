@@ -1,0 +1,28 @@
+{
+  "n": 120,
+  "pearson_r": 0.541,
+  "pearson_p": 0.0,
+  "spearman_rho": 0.504,
+  "mean_campaign": 80.24,
+  "mean_no_campaign": 53.92,
+  "t_welch": 5.427,
+  "df_welch": 116.82,
+  "p_welch": 3e-07,
+  "ci_diff": [
+    16.72,
+    35.94
+  ],
+  "table": [
+    [
+      44,
+      16
+    ],
+    [
+      15,
+      45
+    ]
+  ],
+  "chi2": 28.041,
+  "chi2_p": 1e-07,
+  "cramers_v": 0.483
+}
